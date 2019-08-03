@@ -19,6 +19,8 @@ public class SlimeManager
     private List<GameObject> slimeModels;
     private List<GameObject> spawnPoints;
 
+    private Transform slimesParent;
+
     private GameObject player;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel,
@@ -36,15 +38,19 @@ public class SlimeManager
         Slimes = new List<GameObject>();
     }
 
-    public void ChangeSpawnPoints(Transform parent)
+    public void ChangeLevel(Transform spawnsParent, Transform slimesParent)
     {
+        Slimes.Clear();
+
         List<GameObject> slimeSpawnPoints = new List<GameObject>();
-        for (int i = 0; i < parent.childCount; i++)
+        for (int i = 0; i < spawnsParent.childCount; i++)
         {
-            slimeSpawnPoints.Add(parent.GetChild(i).gameObject);
+            slimeSpawnPoints.Add(spawnsParent.GetChild(i).gameObject);
         }
 
         spawnPoints = slimeSpawnPoints;
+
+        this.slimesParent = slimesParent;
     }
 
     public void SpawnStandard()
@@ -61,6 +67,7 @@ public class SlimeManager
 
         GameObject slime = Object.Instantiate(slimeModels[(int)type]);
         slime.transform.position = selectedSpawn.transform.position;
+        slime.transform.SetParent(slimesParent);
 
         SlimeController slimeController = slime.GetComponent<SlimeController>();
         slimeController.Type = type;

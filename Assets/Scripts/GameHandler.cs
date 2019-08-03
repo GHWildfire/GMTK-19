@@ -128,7 +128,10 @@ public class GameHandler : MonoBehaviour
             levelsObjects[i].SetActive(i == levelIndex);
         }
 
-        slimeManager.ChangeSpawnPoints(levelsObjects[levelIndex].transform.Find("Spawns"));
+        slimeManager.ChangeLevel(
+            levelsObjects[levelIndex].transform.Find("Spawns"),
+            levelsObjects[levelIndex].transform.Find("Slimes")
+        );
     }
 
     private void Update()
@@ -175,7 +178,6 @@ public class GameHandler : MonoBehaviour
                 break;
             case SwapState.DISPLAY_UPGRADES:
                 levels[levelIndex].ClearSlimes();
-                ActivateLevel();
                 if (swapDirectionLeft)
                 {
                     levelIndex--;
@@ -188,6 +190,7 @@ public class GameHandler : MonoBehaviour
                     levelIndex++;
                     swapState = SwapState.WAIT_CHOICE;
                 }
+                ActivateLevel();
                 break;
             case SwapState.WAIT_CHOICE:
                 break;
