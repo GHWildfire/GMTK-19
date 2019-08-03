@@ -1791,7 +1791,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Power description
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1819,7 +1819,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.75
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1860,13 +1860,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 913482159}
-    characterCount: 17
+    characterCount: 0
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 0
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -3370,7 +3370,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0da02e4bd6dd24f4c823d4e3047be10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handlerObject: {fileID: 1922047252}
+  HandlerObject: {fileID: 1922047252}
+  Upgrades:
+  - {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - {fileID: 21300000, guid: 64f5d2a6bc2927e42b3935f16cfd14cc, type: 3}
+  - {fileID: 21300000, guid: ac6f42612a31bde41a17305de534cab0, type: 3}
+  - {fileID: 21300000, guid: 5dcd24e83f8bc694985d7086bb285084, type: 3}
+  UpgradesButton:
+  - {fileID: 295665282}
+  - {fileID: 1831819529}
+  - {fileID: 876931389}
+  - {fileID: 2086368699}
 --- !u!1 &1831819529
 GameObject:
   m_ObjectHideFlags: 0
