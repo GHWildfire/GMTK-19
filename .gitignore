@@ -63,16 +63,3 @@ crashlytics-build.properties
 
 # Own
 #######
-
-# Musics
-[Aa]ssets/Musics/*
-![Aa]ssets/Musics/readme*
-[Aa]ssets/StreamingAssets/Editor/Musics/*
-
-# Folders
-[Aa]ssets/ExternalAssets
-[Aa]ssets/ExternalAssets.meta
-
-# Saves files
-[Aa]ssets/StreamingAssets/GameData/*
-![Aa]ssets/StreamingAssets/GameData/readme*
