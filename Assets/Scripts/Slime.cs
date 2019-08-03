@@ -20,7 +20,7 @@ public class Slime
         this.sprite = sprite;
     }
 
-    public void Instantiate(Vector3 pos)
+    public void Instantiate(Vector3 pos, GameObject parent)
     {
         GameObject slime = new GameObject("Slime");
         SpriteRenderer renderer = slime.AddComponent<SpriteRenderer>();
@@ -30,6 +30,7 @@ public class Slime
         
         slime.transform.position = pos;
         slime.transform.localScale = new Vector3(size, size, size);
+        slime.transform.parent = parent.transform;
 
         collider.isTrigger = true;
     }

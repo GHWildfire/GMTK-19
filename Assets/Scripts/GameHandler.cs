@@ -64,7 +64,11 @@ public class GameHandler : MonoBehaviour
             }
 
             // Level (Script)
-            levels[i] = new Level(spawns, mobs[i]);
+            Transform slimesTransform = levelsObjects[i].transform.Find("Slimes");
+            if (slimesTransform != null)
+            {
+                levels[i] = new Level(spawns, slimesTransform.gameObject, mobs[i]);
+            }
         }
     }
 
