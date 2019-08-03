@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField] public CircleCollider2D MainCollider;
+    public Collider2D MainCollider;
+    public Collider2D SpriteCollider;
 
     public bool IsPlayerAbleToPickUp { get; private set; }
+    public bool IsMoving { get; private set; }
     public float InitSpeed { get; private set; }
     public float Damage { get; private set; }
     public float TravelTime { get; private set; }
 
     private const float DURATION_BEFORE_PLAYER_CAN_PICK_UP = 1;
+    private const float DURATION_BEFORE_STOP_MOVING = 1;
     private const int NUMBER_OF_REBOUND_BEFORE_PLAYER_CAN_PICK_UP = 1;
 
     private Rigidbody2D rigid2d;
 
     private float currentPickUpDuration;
+    private float currentStopMovingDuration;
 
     private int reboundNumber;
 
@@ -30,20 +34,42 @@ public class BulletController : MonoBehaviour
     private void Awake()
     {
         IsPlayerAbleToPickUp = false;
+        IsMoving = true;
         InitSpeed = 10;
         reboundNumber = 0;
+        currentStopMovingDuration = 0;
         currentPickUpDuration = DURATION_BEFORE_PLAYER_CAN_PICK_UP;
     }
 
     private void Start()
     {
         rigid2d = GetComponent<Rigidbody2D>();
+
         rigid2d.velocity = transform.up * InitSpeed;
     }
 
     private void Update()
     {
         UpdatePickUp();
+
+        if (IsMoving)
+        {
+            UpdateTravelTime();
+        }
+        else
+        {
+            UpdatePushedVelocity();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        UpdateVelocityWhenTrigger(collision);
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        UpdateVelocityWhenTrigger(collision);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -52,16 +78,42 @@ public class BulletController : MonoBehaviour
         {
             reboundNumber++;
 
-            UpdateOrientation();
+            UpdateOrientation(rigid2d.velocity.normalized);
+        }
+    }
+
+    private void UpdateVelocityWhenTrigger(Collider2D collision)
+    {
+        if (!IsMoving)
+        {
+            if (collision.tag == Utility.FromTag(Utility.Tag.ENNEMY))
+            {
+                SlimeController slimeController = collision.GetComponent<SlimeController>();
+                Vector2 velocity = SpriteCollider.transform.position - slimeController.MainCollider.transform.position;
+
+                InitSpeed = slimeController.Rigid2d.velocity.magnitude * slimeController.Rigid2d.mass;
+
+                currentStopMovingDuration = 0;
+
+                reboundNumber++;
+
+                UpdateOrientation(velocity.normalized);
+            }
+            else if (collision.tag == Utility.FromTag(Utility.Tag.WALL))
+            {
+                InitSpeed = 1;
+
+                currentStopMovingDuration = 0;
+            }
         }
     }
 
     /// <summary>
     /// Update the orientation of the bullet
     /// </summary>
-    private void UpdateOrientation()
+    private void UpdateOrientation(Vector2 direction)
     {
-        float radian = Mathf.Atan2(rigid2d.velocity.normalized.y, rigid2d.velocity.normalized.x);
+        float radian = Mathf.Atan2(direction.y, direction.x);
         float degree = radian * Mathf.Rad2Deg;
         float finalDegree = degree - 90;
 
@@ -75,6 +127,37 @@ public class BulletController : MonoBehaviour
         if (currentPickUpDuration <= 0 || reboundNumber >= NUMBER_OF_REBOUND_BEFORE_PLAYER_CAN_PICK_UP)
         {
             IsPlayerAbleToPickUp = true;
+        }
+    }
+
+    private void UpdatePushedVelocity()
+    {
+        currentStopMovingDuration += Time.deltaTime;
+
+        float stopMovingPerc = currentStopMovingDuration / DURATION_BEFORE_STOP_MOVING;
+        float speed = Mathf.Lerp(InitSpeed, 0, stopMovingPerc);
+
+        rigid2d.velocity = transform.up * speed;
+    }
+
+    private void UpdateTravelTime()
+    {
+        TravelTime -= Time.deltaTime;
+
+        if (TravelTime <= 0)
+        {
+            currentStopMovingDuration += Time.deltaTime;
+
+            float stopMovingPerc = currentStopMovingDuration / DURATION_BEFORE_STOP_MOVING;
+            float speed = Mathf.Lerp(InitSpeed, 0, stopMovingPerc);
+
+            rigid2d.velocity = transform.up * speed;
+
+            if (speed <= 0)
+            {
+                IsMoving = false;
+                Damage = 0;
+            }
         }
     }
 }

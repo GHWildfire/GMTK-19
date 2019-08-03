@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCollider: {fileID: 1956646450423965179}
+  SpriteCollider: {fileID: 7504518336036909764}
 --- !u!58 &1956646450423965179
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -14,10 +14,9 @@ public class SlimeController : MonoBehaviour
     public CircleCollider2D MainCollider;
 
     public float InitSpeed { get; private set; }
-    public SlimeType Type { get; private set; }
     public float CurrentLife { get; private set; }
-
-    private Rigidbody2D rigid2d;
+    public SlimeType Type { get; private set; }
+    public Rigidbody2D Rigid2d { get; private set; }
 
     public void Init(SlimeType type)
     {
@@ -28,13 +27,13 @@ public class SlimeController : MonoBehaviour
 
     private void Awake()
     {
-        rigid2d = GetComponent<Rigidbody2D>();
+        Rigid2d = GetComponent<Rigidbody2D>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rigid2d.velocity = transform.up * InitSpeed;
+        Rigid2d.velocity = transform.up * InitSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

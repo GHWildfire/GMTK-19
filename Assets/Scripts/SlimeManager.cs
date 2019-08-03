@@ -37,6 +37,8 @@ public class SlimeManager
         GameObject bulletRef = player.GetComponent<PlayerController>().BulletRef;
         if (bulletRef != null)
         {
+            BulletController bulletController = bulletRef.GetComponent<BulletController>();
+
             for (int i = Slimes.Count - 1; i >= 0; i--)
             {
                 GameObject slime = Slimes[i];

@@ -9,7 +9,8 @@ public class Utility
         NONE,
         WALL,
         PLAYER,
-        BULLET
+        BULLET,
+        ENNEMY
     };
 
     /// <summary>
@@ -32,6 +33,9 @@ public class Utility
 
             case Tag.BULLET:
                 return "Bullet";
+
+            case Tag.ENNEMY:
+                return "Ennemy";
         }
 
         return "";
