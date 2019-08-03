@@ -7,6 +7,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject levelsContainer;
     [SerializeField] private Sprite slimeSprite;
     [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject canvas;
 
     private GameObject[] levelsObjects;
     private Level[] levels;
@@ -19,10 +20,17 @@ public class GameHandler : MonoBehaviour
     private bool swapDirectionLeft;
     private float initSwapTime;
     private bool useUpgrade;
-    private bool swapping;
 
     private const float SWAP_DURATION = 1.5f;
     private const float CAMERA_MAX_OFFSET = 50;
+
+    private enum SwapState { FADE_OUT, DISPLAY_UPGRADES, WAIT_CHOICE, FADE_IN, FINISHED};
+    private SwapState swapState;
+
+    public void UpgradeSelected()
+    {
+
+    }
     
     private void Start()
     {
@@ -32,8 +40,10 @@ public class GameHandler : MonoBehaviour
         useUpgrade = false;
         swapDirectionLeft = false;
         initSwapTime = Time.time;
-        initCamPos = camera.transform.position;
-        swapping = false;
+
+        swapState = SwapState.FADE_OUT;
+
+        canvas.SetActive(false);
 
         FillSlimes();
         FillLevels();
@@ -116,29 +126,55 @@ public class GameHandler : MonoBehaviour
         float factor = Mathf.Log(CAMERA_MAX_OFFSET) / Mathf.Log(SWAP_DURATION);
         float direction = swapDirectionLeft ? -1 : 1;
 
-        if (timePassed < SWAP_DURATION)
+        switch (swapState)
         {
-            float cameraOffset = Mathf.Pow(timePassed, factor);
-            camera.transform.position = initCamPos + direction * new Vector3(cameraOffset, 0, 0);
-        }
-        else if (timePassed < 2 * SWAP_DURATION)
-        {
-            if (swapping)
-            {
-                swapping = false;
+            case SwapState.FADE_OUT:
+                float cameraOffsetOut = Mathf.Pow(timePassed, factor);
+                camera.transform.position = initCamPos + direction * new Vector3(cameraOffsetOut, 0, 0);
+                if (timePassed > SWAP_DURATION)
+                {
+                    swapState = SwapState.DISPLAY_UPGRADES;
+                }
+                break;
+            case SwapState.DISPLAY_UPGRADES:
                 levels[levelIndex].ClearSlimes();
-                levelIndex = swapDirectionLeft ? levelIndex - 1 : levelIndex + 1;
                 ActivateLevel();
-            }
-
-            float cameraOffset = Mathf.Pow(SWAP_DURATION - (timePassed - SWAP_DURATION), factor);
-            camera.transform.position = initCamPos - direction * new Vector3(cameraOffset, 0, 0);
-        }
-        else
-        {
-            swapLevel = false;
-            initTime = Time.time;
-            camera.transform.position = initCamPos;
+                if (swapDirectionLeft)
+                {
+                    levelIndex--;
+                    initSwapTime = Time.time;
+                    swapState = SwapState.FADE_IN;
+                }
+                else
+                {
+                    canvas.SetActive(true);
+                    levelIndex++;
+                    swapState = SwapState.WAIT_CHOICE;
+                }
+                break;
+            case SwapState.WAIT_CHOICE:
+                canvas.SetActive(false);
+                initSwapTime = Time.time;
+                swapState = SwapState.FADE_IN;
+                break;
+            case SwapState.FADE_IN:
+                if (Mathf.Abs(SWAP_DURATION - timePassed) > 0.1f)
+                {
+                    float cameraOffsetIn = Mathf.Pow(SWAP_DURATION - timePassed, factor);
+                    camera.transform.position = initCamPos - direction * new Vector3(cameraOffsetIn, 0, 0);
+                }
+                if (timePassed >= SWAP_DURATION)
+                {
+                    swapState = SwapState.FINISHED;
+                }
+                break;
+            case SwapState.FINISHED:
+                initTime = Time.time;
+                camera.transform.position = initCamPos;
+                swapLevel = false;
+                break;
+            default:
+                break;
         }
     }
 
@@ -170,6 +206,7 @@ public class GameHandler : MonoBehaviour
         swapLevel = true;
         swapDirectionLeft = directionLeft;
         initSwapTime = Time.time;
-        swapping = true;
+        initCamPos = camera.transform.position;
+        swapState = SwapState.FADE_OUT;
     }
 }
