@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    [SerializeField] public CircleCollider2D MainCollider;
+
     public float InitSpeed { get; set; }
 
     public bool IsPlayerAbleToPickUp { get; private set; }

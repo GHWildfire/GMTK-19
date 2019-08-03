@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 6892516524280436827}
   - component: {fileID: 787730713}
   - component: {fileID: 787730711}
+  - component: {fileID: 943944723818148013}
   - component: {fileID: 787730712}
   - component: {fileID: 787730714}
   m_Layer: 0
@@ -207,7 +208,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6892516524280436826}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -231,6 +232,22 @@ CircleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.835
+--- !u!58 &943944723818148013
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892516524280436826}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -299,3 +316,4 @@ MonoBehaviour:
   bulletModel: {fileID: 1956646450423965173, guid: fcc986411760da84990ada12a09a94f7,
     type: 3}
   weapon: {fileID: 2089615767}
+  mainCollider: {fileID: 787730711}
