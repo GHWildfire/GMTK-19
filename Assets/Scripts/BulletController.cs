@@ -16,7 +16,21 @@ public class BulletController : MonoBehaviour
 
     private void Update()
     {
-        // Compute the new orientation of the bullet
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == Utility.FromTag(Utility.Tag.WALL))
+        {
+            UpdateOrientation();
+        }
+    }
+
+    /// <summary>
+    /// Update the orientation of the bullet
+    /// </summary>
+    private void UpdateOrientation()
+    {
         float radian = Mathf.Atan2(rigid2d.velocity.normalized.y, rigid2d.velocity.normalized.x);
         float degree = radian * Mathf.Rad2Deg;
         float finalDegree = degree - 90;
