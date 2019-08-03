@@ -4,13 +4,27 @@ using UnityEngine;
 
 public class SlimeController : MonoBehaviour
 {
+    public enum SlimeType
+    {
+        STANDARD,
+        FAST,
+        SLOW
+    }
+
     public CircleCollider2D MainCollider;
 
-    public float InitSpeed { get; set; }
-    public SlimeManager.SlimeType Type { get; set; }
+    public float InitSpeed { get; private set; }
+    public SlimeType Type { get; private set; }
     public float CurrentLife { get; private set; }
 
     private Rigidbody2D rigid2d;
+
+    public void Init(SlimeType type)
+    {
+        Type = type;
+        InitSpeed = GetInitSpeed(type);
+        CurrentLife = GetInitLife(type);
+    }
 
     private void Awake()
     {
@@ -34,5 +48,39 @@ public class SlimeController : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private float GetInitSpeed(SlimeType type)
+    {
+        switch (type)
+        {
+            case SlimeType.STANDARD:
+                return 12;
+
+            case SlimeType.FAST:
+                return 16;
+
+            case SlimeType.SLOW:
+                return 8;
+        }
+
+        return 0;
+    }
+
+    private float GetInitLife(SlimeType type)
+    {
+        switch (type)
+        {
+            case SlimeType.STANDARD:
+                return 2;
+
+            case SlimeType.FAST:
+                return 1;
+
+            case SlimeType.SLOW:
+                return 4;
+        }
+
+        return 0;
     }
 }

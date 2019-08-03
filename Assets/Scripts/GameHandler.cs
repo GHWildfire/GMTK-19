@@ -95,13 +95,13 @@ public class GameHandler : MonoBehaviour
                 (2, slimeManager.SpawnStandard),
                 (4, slimeManager.SpawnStandard),
                 (6, slimeManager.SpawnStandard),
-                (8, slimeManager.SpawnStandard)
+                (8, slimeManager.SpawnSlow)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnSlow),
                 (4, slimeManager.SpawnStandard),
-                (6, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnSlow),
                 (8, slimeManager.SpawnStandard)
             }
         };

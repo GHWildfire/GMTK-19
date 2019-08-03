@@ -6,9 +6,10 @@ public class BulletController : MonoBehaviour
 {
     [SerializeField] public CircleCollider2D MainCollider;
 
-    public float InitSpeed { get; set; }
     public bool IsPlayerAbleToPickUp { get; private set; }
+    public float InitSpeed { get; private set; }
     public float Damage { get; private set; }
+    public float TravelTime { get; private set; }
 
     private const float DURATION_BEFORE_PLAYER_CAN_PICK_UP = 1;
     private const int NUMBER_OF_REBOUND_BEFORE_PLAYER_CAN_PICK_UP = 1;
@@ -18,6 +19,13 @@ public class BulletController : MonoBehaviour
     private float currentPickUpDuration;
 
     private int reboundNumber;
+
+    public void Init(float initSpeed, float damage, float travelTime)
+    {
+        InitSpeed = initSpeed;
+        Damage = damage;
+        TravelTime = travelTime;
+    }
 
     private void Awake()
     {

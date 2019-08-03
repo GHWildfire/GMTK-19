@@ -11,4 +11,16 @@ public class SpawnStorage : MonoBehaviour
     }
 
     public SpawnType CurrentSpawnType;
+
+    public static SpawnType GetSpawnType(SlimeController.SlimeType type)
+    {
+        switch (type)
+        {
+            case SlimeController.SlimeType.STANDARD:
+            case SlimeController.SlimeType.FAST:
+            case SlimeController.SlimeType.SLOW:
+            default:
+                return SpawnType.STANDARD;
+        }
+    }
 }

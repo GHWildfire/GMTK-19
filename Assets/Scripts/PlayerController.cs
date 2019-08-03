@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private float bulletSpeed = 40;
     private float bulletDamage = 1;
+    private float bulletTravelTime = 3;
 
     private bool isBulletReady;
 
@@ -109,7 +110,8 @@ public class PlayerController : MonoBehaviour
             bullet.transform.up = transform.up;
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.InitSpeed = bulletSpeed;
+            bulletController.Init(bulletSpeed, bulletDamage, bulletTravelTime);
+
             // Ignore collision between the player and the bullet (trigger ok)
             Physics2D.IgnoreCollision(MainCollider, bulletController.MainCollider);
 
