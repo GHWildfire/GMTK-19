@@ -29,7 +29,12 @@ public class GameHandler : MonoBehaviour
 
     public void UpgradeSelected()
     {
-
+        if (swapState == SwapState.WAIT_CHOICE)
+        {
+            canvas.SetActive(false);
+            initSwapTime = Time.time;
+            swapState = SwapState.FADE_IN;
+        }
     }
     
     private void Start()
@@ -153,9 +158,6 @@ public class GameHandler : MonoBehaviour
                 }
                 break;
             case SwapState.WAIT_CHOICE:
-                canvas.SetActive(false);
-                initSwapTime = Time.time;
-                swapState = SwapState.FADE_IN;
                 break;
             case SwapState.FADE_IN:
                 if (Mathf.Abs(SWAP_DURATION - timePassed) > 0.1f)

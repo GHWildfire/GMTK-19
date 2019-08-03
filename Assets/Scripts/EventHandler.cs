@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EventHandler : MonoBehaviour
 {
@@ -8,15 +6,14 @@ public class EventHandler : MonoBehaviour
 
     private GameHandler handler;
 
+    public void ButtonPressed(string buttonName)
+    {
+        handler.UpgradeSelected();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         handler = handlerObject.GetComponent<GameHandler>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
