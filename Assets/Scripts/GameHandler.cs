@@ -84,24 +84,52 @@ public class GameHandler : MonoBehaviour
     {
         HandleKeys();
         UpdateLevel();
+
+        Debug.Log(levelIndex);
     }
 
     private void UpdateLevel()
     {
         Level activeLevel = levels[levelIndex];
         activeLevel.Update(Time.time - initTime);
+
+        if (activeLevel.Ended())
+        {
+            activeLevel.ClearSlimes();
+            initTime = Time.time;
+
+            if (levelIndex < levelsObjects.Length - 1)
+            {
+                levelIndex++;
+                ActivateLevel();
+            }
+        }
     }
 
     private void HandleKeys()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            levelIndex = (levelIndex - 1 + levelsObjects.Length) % levelsObjects.Length;
+            levels[levelIndex].ClearSlimes();
+            initTime = Time.time;
+
+            if (levelIndex > 0)
+            {
+                levelIndex--;
+                ActivateLevel();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKeyDown(KeyCode.L))
         {
-            levelIndex = (levelIndex + 1) % levelsObjects.Length;
+            levels[levelIndex].ClearSlimes();
+            initTime = Time.time;
+
+            if (levelIndex < levelsObjects.Length - 1)
+            {
+                levelIndex++;
+                ActivateLevel();
+            }
         }
-        ActivateLevel();
+
     }
 }

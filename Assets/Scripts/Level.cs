@@ -6,31 +6,50 @@ public class Level
 { 
     private GameObject[] spawns;
     private GameObject slimesObject;
-    private List<(float, Slime)> mobs;
+    private List<(float, Slime)> initSlimes;
+    private List<(float, Slime)> slimes;
 
-    public Level(GameObject[] spawns, GameObject slimesObject, List<(float, Slime)> mobs)
+    public Level(GameObject[] spawns, GameObject slimesObject, List<(float, Slime)> slimes)
     {
         this.spawns = spawns;
         this.slimesObject = slimesObject;
-        this.mobs = mobs;
+        this.slimes = slimes;
+
+        initSlimes = new List<(float, Slime)>(slimes);
+
     }
 
     public void Update(float timePassed)
     {
-        if (mobs.Count > 0)
+        if (slimes.Count > 0)
         {
-            (float, Slime) slime = mobs[0];
+            (float, Slime) slime = slimes[0];
             if (slime.Item1 <= timePassed)
             {
                 slime.Item2.Instantiate(NextSpawn(), slimesObject);
-                mobs.RemoveAt(0);
+                slimes.RemoveAt(0);
             }
         }
     }
 
+    public bool Ended()
+    {
+        return slimes.Count == 0 && slimesObject.transform.childCount == 0;
+    }
+
+    public void ClearSlimes()
+    {
+        foreach (Transform child in slimesObject.transform)
+        {
+            Object.Destroy(child.gameObject);
+        }
+
+        slimes = new List<(float, Slime)>(initSlimes);
+    }
+
     private Vector3 NextSpawn()
     {
-        GameObject spawn = spawns[Random.Range(0, mobs.Count)];
+        GameObject spawn = spawns[Random.Range(0, slimes.Count)];
         return spawn.transform.position;
     }
 }
