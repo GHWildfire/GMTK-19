@@ -84,8 +84,6 @@ public class GameHandler : MonoBehaviour
     {
         HandleKeys();
         UpdateLevel();
-
-        Debug.Log(levelIndex);
     }
 
     private void UpdateLevel()
