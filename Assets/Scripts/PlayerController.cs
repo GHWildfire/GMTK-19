@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public CircleCollider2D MainCollider;
 
     public GameObject BulletRef { get; private set; }
+    public float CurrentLife { get; private set; }
 
     private const float MOVE_SPEED = 15;
 
@@ -24,18 +25,13 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        CurrentLife = 5;
         rigid2d = GetComponent<Rigidbody2D>();
         currentMove = new Vector2();
         isBulletReady = true;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         UpdatePlayerOrientation();
 
@@ -50,6 +46,16 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckBulletPickUp(collision);
+
+        if (collision.tag == Utility.FromTag(Utility.Tag.ENNEMY))
+        {
+            CurrentLife--;
+
+            if (CurrentLife <= 0)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

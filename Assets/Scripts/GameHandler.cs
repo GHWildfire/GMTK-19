@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class GameHandler : MonoBehaviour
 {
+    private enum SwapState
+    {
+        FADE_OUT,
+        DISPLAY_UPGRADES,
+        WAIT_CHOICE,
+        FADE_IN,
+        FINISHED
+    };
+
+    public enum GameState
+    {
+        INIT,
+        START,
+        END
+    }
+
     [SerializeField] private GameObject levelsContainer;
     [SerializeField] private Sprite slimeSprite;
     [SerializeField] private Camera mainCam;
@@ -32,8 +48,8 @@ public class GameHandler : MonoBehaviour
     private const float SWAP_DURATION = 1.5f;
     private const float CAMERA_MAX_OFFSET = 50;
 
-    private enum SwapState { FADE_OUT, DISPLAY_UPGRADES, WAIT_CHOICE, FADE_IN, FINISHED};
     private SwapState swapState;
+    private GameState currentGameState;
 
     private SlimeManager slimeManager;
 
@@ -60,6 +76,7 @@ public class GameHandler : MonoBehaviour
         swapDirectionLeft = false;
         initSwapTime = Time.time;
         swapState = SwapState.FADE_OUT;
+        currentGameState = GameState.INIT;
 
         canvas.SetActive(false);
 
@@ -72,6 +89,11 @@ public class GameHandler : MonoBehaviour
         ActivateLevel();
     }
 
+    private void Start()
+    {
+        currentGameState = GameState.START;
+    }
+
     private void Update()
     {
         if (swapLevel)
@@ -80,9 +102,23 @@ public class GameHandler : MonoBehaviour
         }
         else
         {
-            HandleKeys();
-            UpdateLevel();
-            slimeManager.Update();
+            CheckingPlayerAlive();
+
+            if (currentGameState == GameState.START)
+            {
+                HandleKeys();
+                UpdateLevel();
+                slimeManager.Update();
+            }
+        }
+    }
+
+    private void CheckingPlayerAlive()
+    {
+        if (currentPlayer == null)
+        {
+            Debug.Log("YOU LOST !");
+            currentGameState = GameState.END;
         }
     }
 
