@@ -116,7 +116,7 @@ public class SlimeManager
     private void RotateRandomly(GameObject slime)
     {
         float rotation = Random.Range(0.0f, 360.0f);
-        slime.transform.rotation = Quaternion.Euler(0, 0, rotation);
+        slime.GetComponent<SlimeController>().Body.transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 
     private GameObject SelectSpawn(SpawnStorage.SpawnType type)
