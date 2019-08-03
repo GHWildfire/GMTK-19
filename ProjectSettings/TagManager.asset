@@ -49,3 +49,12 @@ TagManager:
   - name: Walls
     uniqueID: 3510018841
     locked: 0
+  - name: Bullet
+    uniqueID: 870415183
+    locked: 0
+  - name: Enemies
+    uniqueID: 802346231
+    locked: 0
+  - name: Player
+    uniqueID: 2050439459
+    locked: 0
