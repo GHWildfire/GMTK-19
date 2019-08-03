@@ -7,7 +7,9 @@ public class Utility
     public enum Tag
     {
         NONE,
-        WALL
+        WALL,
+        PLAYER,
+        BULLET
     };
 
     /// <summary>
@@ -24,6 +26,12 @@ public class Utility
 
             case Tag.WALL:
                 return "Wall";
+
+            case Tag.PLAYER:
+                return "Player";
+
+            case Tag.BULLET:
+                return "Bullet";
         }
 
         return "";

@@ -4,24 +4,44 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField] private float initSpeed = 0;
+    public float InitSpeed { get; set; }
+
+    public bool IsPlayerAbleToPickUp { get; private set; }
+
+    private const float DURATION_BEFORE_PLAYER_CAN_PICK_UP = 1;
+    private const int NUMBER_OF_REBOUND_BEFORE_PLAYER_CAN_PICK_UP = 1;
 
     private Rigidbody2D rigid2d;
+
+    private float currentPickUpDuration;
+
+    private int reboundNumber;
+
+    private void Awake()
+    {
+        IsPlayerAbleToPickUp = false;
+        InitSpeed = 10;
+        reboundNumber = 0;
+        currentPickUpDuration = DURATION_BEFORE_PLAYER_CAN_PICK_UP;
+    }
 
     private void Start()
     {
         rigid2d = GetComponent<Rigidbody2D>();
-        rigid2d.velocity = transform.up * initSpeed;
+        rigid2d.velocity = transform.up * InitSpeed;
     }
 
     private void Update()
     {
+        UpdatePickUp();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.transform.tag == Utility.FromTag(Utility.Tag.WALL))
         {
+            reboundNumber++;
+
             UpdateOrientation();
         }
     }
@@ -36,5 +56,15 @@ public class BulletController : MonoBehaviour
         float finalDegree = degree - 90;
 
         transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, finalDegree));
+    }
+
+    private void UpdatePickUp()
+    {
+        currentPickUpDuration -= Time.deltaTime;
+
+        if (currentPickUpDuration <= 0 || reboundNumber >= NUMBER_OF_REBOUND_BEFORE_PLAYER_CAN_PICK_UP)
+        {
+            IsPlayerAbleToPickUp = true;
+        }
     }
 }
