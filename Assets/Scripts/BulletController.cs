@@ -16,13 +16,10 @@ public class BulletController : MonoBehaviour
 
     private void Update()
     {
+        // Compute the new orientation of the bullet
         float radian = Mathf.Atan2(rigid2d.velocity.normalized.y, rigid2d.velocity.normalized.x);
-        Debug.Log("r " + radian);
         float degree = radian * Mathf.Rad2Deg;
-        Debug.Log("d " + degree);
-
         float finalDegree = degree - 90;
-        Debug.Log("fd " + finalDegree);
 
         transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, finalDegree));
     }
