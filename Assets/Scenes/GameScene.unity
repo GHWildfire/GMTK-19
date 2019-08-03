@@ -2381,6 +2381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelsContainer: {fileID: 1440707142}
   slimeSprite: {fileID: 21300000, guid: ac6f42612a31bde41a17305de534cab0, type: 3}
+  camera: {fileID: 519420028}
 --- !u!1 &2126523993
 GameObject:
   m_ObjectHideFlags: 0

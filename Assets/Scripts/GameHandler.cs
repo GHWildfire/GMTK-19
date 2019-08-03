@@ -6,17 +6,34 @@ public class GameHandler : MonoBehaviour
 {
     [SerializeField] private GameObject levelsContainer;
     [SerializeField] private Sprite slimeSprite;
+    [SerializeField] private GameObject camera;
 
     private GameObject[] levelsObjects;
     private Level[] levels;
     private List<List<(float, Slime)>> mobs;
     private int levelIndex;
     private float initTime;
+    private Vector3 initCamPos;
+
+    private bool swapLevel;
+    private bool swapDirectionLeft;
+    private float initSwapTime;
+    private bool useUpgrade;
+    private bool swapping;
+
+    private const float SWAP_DURATION = 1.5f;
+    private const float CAMERA_MAX_OFFSET = 50;
     
     private void Start()
     {
         levelIndex = 0;
         initTime = Time.time;
+        swapLevel = false;
+        useUpgrade = false;
+        swapDirectionLeft = false;
+        initSwapTime = Time.time;
+        initCamPos = camera.transform.position;
+        swapping = false;
 
         FillSlimes();
         FillLevels();
@@ -82,8 +99,47 @@ public class GameHandler : MonoBehaviour
 
     private void Update()
     {
-        HandleKeys();
-        UpdateLevel();
+        if (swapLevel)
+        {
+            SwapLevel();
+        } 
+        else
+        {
+            HandleKeys();
+            UpdateLevel();
+        }
+    }
+
+    private void SwapLevel()
+    {
+        float timePassed = Time.time - initSwapTime;
+        float factor = Mathf.Log(CAMERA_MAX_OFFSET) / Mathf.Log(SWAP_DURATION);
+        float direction = swapDirectionLeft ? -1 : 1;
+
+        if (timePassed < SWAP_DURATION)
+        {
+            float cameraOffset = Mathf.Pow(timePassed, factor);
+            camera.transform.position = initCamPos + direction * new Vector3(cameraOffset, 0, 0);
+        }
+        else if (timePassed < 2 * SWAP_DURATION)
+        {
+            if (swapping)
+            {
+                swapping = false;
+                levels[levelIndex].ClearSlimes();
+                levelIndex = swapDirectionLeft ? levelIndex - 1 : levelIndex + 1;
+                ActivateLevel();
+            }
+
+            float cameraOffset = Mathf.Pow(SWAP_DURATION - (timePassed - SWAP_DURATION), factor);
+            camera.transform.position = initCamPos - direction * new Vector3(cameraOffset, 0, 0);
+        }
+        else
+        {
+            swapLevel = false;
+            initTime = Time.time;
+            camera.transform.position = initCamPos;
+        }
     }
 
     private void UpdateLevel()
@@ -91,43 +147,29 @@ public class GameHandler : MonoBehaviour
         Level activeLevel = levels[levelIndex];
         activeLevel.Update(Time.time - initTime);
 
-        if (activeLevel.Ended())
+        if (activeLevel.Ended() && levelIndex < levelsObjects.Length - 1)
         {
-            activeLevel.ClearSlimes();
-            initTime = Time.time;
-
-            if (levelIndex < levelsObjects.Length - 1)
-            {
-                levelIndex++;
-                ActivateLevel();
-            }
+            ActivateSwap(false);
         }
     }
 
     private void HandleKeys()
     {
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && levelIndex > 0)
         {
-            levels[levelIndex].ClearSlimes();
-            initTime = Time.time;
-
-            if (levelIndex > 0)
-            {
-                levelIndex--;
-                ActivateLevel();
-            }
+            ActivateSwap(true);
         }
-        else if (Input.GetKeyDown(KeyCode.L))
+        else if (Input.GetKeyDown(KeyCode.L) && levelIndex < levelsObjects.Length - 1)
         {
-            levels[levelIndex].ClearSlimes();
-            initTime = Time.time;
-
-            if (levelIndex < levelsObjects.Length - 1)
-            {
-                levelIndex++;
-                ActivateLevel();
-            }
+            ActivateSwap(false);
         }
+    }
 
+    private void ActivateSwap(bool directionLeft)
+    {
+        swapLevel = true;
+        swapDirectionLeft = directionLeft;
+        initSwapTime = Time.time;
+        swapping = true;
     }
 }
