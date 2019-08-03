@@ -427,4 +427,4 @@ MonoBehaviour:
   bulletModel: {fileID: 1956646450423965173, guid: fcc986411760da84990ada12a09a94f7,
     type: 3}
   weapon: {fileID: 2089615767}
-  mainCollider: {fileID: 787730711}
+  MainCollider: {fileID: 787730711}
