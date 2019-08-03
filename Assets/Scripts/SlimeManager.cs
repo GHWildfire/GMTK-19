@@ -54,8 +54,12 @@ public class SlimeManager
 
         GameObject slime = Object.Instantiate(slimeModels[slimeIdx]);
         slime.transform.position = slimeSpawnPoints[spawnPointIdx].transform.position;
+
+        SlimeController slimeController = slime.GetComponent<SlimeController>();
+        slimeController.Type = (SlimeType)slimeIdx;
+        slimeController.InitSpeed = GetInitSpeed(slimeController.Type);
         //Ignore collision between player and slime
-        Physics2D.IgnoreCollision(slime.GetComponent<SlimeController>().MainCollider, player.GetComponent<PlayerController>().MainCollider);
+        Physics2D.IgnoreCollision(slimeController.MainCollider, player.GetComponent<PlayerController>().MainCollider);
 
         RotateRandomly(slime);
 
@@ -100,5 +104,22 @@ public class SlimeManager
     {
         float rotation = Random.Range(0.0f, 360.0f);
         slime.transform.rotation = Quaternion.Euler(0, 0, rotation);
+    }
+
+    private float GetInitSpeed(SlimeType type)
+    {
+        switch (type)
+        {
+            case SlimeType.STANDARD:
+                return 12;
+
+            case SlimeType.FAST:
+                return 16;
+
+            case SlimeType.SLOW:
+                return 8;
+        }
+
+        return 0;
     }
 }

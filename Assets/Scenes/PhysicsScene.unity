@@ -1909,9 +1909,9 @@ MonoBehaviour:
   slimeSpawnPointsParent: {fileID: 5947639}
   standardSlimeModel: {fileID: 7816288074099886166, guid: e5822b050a51eef4ab689479c6999863,
     type: 3}
-  fastSlimeModel: {fileID: 7816288074099886166, guid: e5822b050a51eef4ab689479c6999863,
+  fastSlimeModel: {fileID: 4345843460293820576, guid: 25a8389a22dc88a4bb257d6b33168cf3,
     type: 3}
-  slowSlimeModel: {fileID: 7816288074099886166, guid: e5822b050a51eef4ab689479c6999863,
+  slowSlimeModel: {fileID: 8877625653182184685, guid: d3334431aba12fb40b0fc4a40db8fcbe,
     type: 3}
 --- !u!4 &2071743080
 Transform:

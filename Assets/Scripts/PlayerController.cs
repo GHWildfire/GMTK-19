@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private const float MOVE_SPEED = 15;
 
+    private float bulletSpeed = 40;
+
     private bool isBulletReady;
 
     private Vector2 currentMove;
@@ -106,7 +108,7 @@ public class PlayerController : MonoBehaviour
             bullet.transform.up = transform.up;
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.InitSpeed = 20;
+            bulletController.InitSpeed = bulletSpeed;
             // Ignore collision between the player and the bullet (trigger ok)
             Physics2D.IgnoreCollision(MainCollider, bulletController.MainCollider);
 
