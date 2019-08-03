@@ -6,12 +6,20 @@ public class GameHandler : MonoBehaviour
 {
     [SerializeField] private GameObject levelsContainer;
     [SerializeField] private Sprite slimeSprite;
-    [SerializeField] private GameObject camera;
+    [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private GameObject playerModel;
+
+    [Header("Slimes Models")]
+    [SerializeField] private GameObject standardSlimeModel;
+    [SerializeField] private GameObject fastSlimeModel;
+    [SerializeField] private GameObject slowSlimeModel;
+
+    public static Camera SharedCam;
 
     private GameObject[] levelsObjects;
     private Level[] levels;
-    private List<List<(float, Slime)>> mobs;
+    private List<List<(float, SlimeManager.SpawmSlime)>> mobs;
     private int levelIndex;
     private float initTime;
     private Vector3 initCamPos;
@@ -27,6 +35,10 @@ public class GameHandler : MonoBehaviour
     private enum SwapState { FADE_OUT, DISPLAY_UPGRADES, WAIT_CHOICE, FADE_IN, FINISHED};
     private SwapState swapState;
 
+    private SlimeManager slimeManager;
+
+    private GameObject currentPlayer;
+
     public void UpgradeSelected()
     {
         if (swapState == SwapState.WAIT_CHOICE)
@@ -36,19 +48,24 @@ public class GameHandler : MonoBehaviour
             swapState = SwapState.FADE_IN;
         }
     }
-    
-    private void Start()
+
+    private void Awake()
     {
+        SharedCam = mainCam;
+
         levelIndex = 0;
         initTime = Time.time;
         swapLevel = false;
         useUpgrade = false;
         swapDirectionLeft = false;
         initSwapTime = Time.time;
-
         swapState = SwapState.FADE_OUT;
 
         canvas.SetActive(false);
+
+        currentPlayer = Instantiate(playerModel);
+
+        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, currentPlayer);
 
         FillSlimes();
         FillLevels();
@@ -57,21 +74,21 @@ public class GameHandler : MonoBehaviour
 
     private void FillSlimes()
     {
-        mobs = new List<List<(float, Slime)>>
+        mobs = new List<List<(float, SlimeManager.SpawmSlime)>>
         {
-            new List<(float, Slime)>
+            new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (4, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (6, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (8, new Slime(0, 0, 0.5f, 0, slimeSprite))
+                (2, slimeManager.SpawnStandard),
+                (4, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard)
             },
-            new List<(float, Slime)>
+            new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (4, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (6, new Slime(0, 0, 0.5f, 0, slimeSprite)),
-                (8, new Slime(0, 0, 0.5f, 0, slimeSprite))
+                (2, slimeManager.SpawnStandard),
+                (4, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard)
             }
         };
     }
@@ -110,6 +127,8 @@ public class GameHandler : MonoBehaviour
         {
             levelsObjects[i].SetActive(i == levelIndex);
         }
+
+        slimeManager.ChangeSpawnPoints(levelsObjects[levelIndex].transform.Find("Spawns"));
     }
 
     private void Update()
@@ -122,6 +141,19 @@ public class GameHandler : MonoBehaviour
         {
             HandleKeys();
             UpdateLevel();
+
+            // Manage ignore collisions between bullet and slimes
+            GameObject bulletRef = currentPlayer.GetComponent<PlayerController>().BulletRef;
+            if (bulletRef != null)
+            {
+                foreach (GameObject item in slimeManager.Slimes)
+                {
+                    Physics2D.IgnoreCollision(
+                        bulletRef.GetComponent<BulletController>().MainCollider,
+                        item.GetComponent<SlimeController>().MainCollider
+                    );
+                }
+            }
         }
     }
 
@@ -135,7 +167,7 @@ public class GameHandler : MonoBehaviour
         {
             case SwapState.FADE_OUT:
                 float cameraOffsetOut = Mathf.Pow(timePassed, factor);
-                camera.transform.position = initCamPos + direction * new Vector3(cameraOffsetOut, 0, 0);
+                mainCam.transform.position = initCamPos + direction * new Vector3(cameraOffsetOut, 0, 0);
                 if (timePassed > SWAP_DURATION)
                 {
                     swapState = SwapState.DISPLAY_UPGRADES;
@@ -163,7 +195,7 @@ public class GameHandler : MonoBehaviour
                 if (Mathf.Abs(SWAP_DURATION - timePassed) > 0.1f)
                 {
                     float cameraOffsetIn = Mathf.Pow(SWAP_DURATION - timePassed, factor);
-                    camera.transform.position = initCamPos - direction * new Vector3(cameraOffsetIn, 0, 0);
+                    mainCam.transform.position = initCamPos - direction * new Vector3(cameraOffsetIn, 0, 0);
                 }
                 if (timePassed >= SWAP_DURATION)
                 {
@@ -172,7 +204,7 @@ public class GameHandler : MonoBehaviour
                 break;
             case SwapState.FINISHED:
                 initTime = Time.time;
-                camera.transform.position = initCamPos;
+                mainCam.transform.position = initCamPos;
                 swapLevel = false;
                 break;
             default:
@@ -208,7 +240,7 @@ public class GameHandler : MonoBehaviour
         swapLevel = true;
         swapDirectionLeft = directionLeft;
         initSwapTime = Time.time;
-        initCamPos = camera.transform.position;
+        initCamPos = mainCam.transform.position;
         swapState = SwapState.FADE_OUT;
     }
 }

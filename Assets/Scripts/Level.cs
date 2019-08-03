@@ -6,27 +6,26 @@ public class Level
 { 
     private GameObject[] spawns;
     private GameObject slimesObject;
-    private List<(float, Slime)> initSlimes;
-    private List<(float, Slime)> slimes;
+    private List<(float, SlimeManager.SpawmSlime)> initSlimes;
+    private List<(float, SlimeManager.SpawmSlime)> slimes;
 
-    public Level(GameObject[] spawns, GameObject slimesObject, List<(float, Slime)> slimes)
+    public Level(GameObject[] spawns, GameObject slimesObject, List<(float, SlimeManager.SpawmSlime)> slimes)
     {
         this.spawns = spawns;
         this.slimesObject = slimesObject;
         this.slimes = slimes;
 
-        initSlimes = new List<(float, Slime)>(slimes);
-
+        initSlimes = new List<(float, SlimeManager.SpawmSlime)>(slimes);
     }
 
     public void Update(float timePassed)
     {
         if (slimes.Count > 0)
         {
-            (float, Slime) slime = slimes[0];
+            (float, SlimeManager.SpawmSlime) slime = slimes[0];
             if (slime.Item1 <= timePassed)
             {
-                slime.Item2.Instantiate(NextSpawn(), slimesObject);
+                slime.Item2();
                 slimes.RemoveAt(0);
             }
         }
@@ -44,7 +43,7 @@ public class Level
             Object.Destroy(child.gameObject);
         }
 
-        slimes = new List<(float, Slime)>(initSlimes);
+        slimes = new List<(float, SlimeManager.SpawmSlime)>(initSlimes);
     }
 
     private Vector3 NextSpawn()

@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
     private void UpdatePlayerOrientation()
     {
         Vector3 mousePos = Input.mousePosition;
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        mousePos = GameHandler.SharedCam.ScreenToWorldPoint(mousePos);
 
         Vector2 direction = new Vector2(
             mousePos.x - transform.position.x,

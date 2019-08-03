@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SlimeManager
 {
+    public delegate void SpawmSlime();
+
     public enum SlimeType
     {
         STANDARD,
@@ -14,12 +17,12 @@ public class SlimeManager
     public List<GameObject> Slimes { get; private set; }
 
     private List<GameObject> slimeModels;
-    private List<GameObject> slimeSpawnPoints;
+    private List<GameObject> spawnPoints;
 
     private GameObject player;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel,
-        GameObject player, List<GameObject> slimeSpawnPoints = null)
+        GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
@@ -30,74 +33,44 @@ public class SlimeManager
 
         this.player = player;
 
-        if (slimeSpawnPoints == null)
-        {
-            this.slimeSpawnPoints = new List<GameObject>();
-        }
-        else
-        {
-            this.slimeSpawnPoints = slimeSpawnPoints;
-        }
-
         Slimes = new List<GameObject>();
     }
 
-    public bool SpawnRandomSlime()
+    public void ChangeSpawnPoints(Transform parent)
     {
-        if (slimeSpawnPoints == null)
+        List<GameObject> slimeSpawnPoints = new List<GameObject>();
+        for (int i = 0; i < parent.childCount; i++)
         {
-            return false;
+            slimeSpawnPoints.Add(parent.GetChild(i).gameObject);
         }
 
-        int slimeIdx = Random.Range(0, slimeModels.Count);
-        int spawnPointIdx = Random.Range(0, slimeSpawnPoints.Count);
+        spawnPoints = slimeSpawnPoints;
+    }
 
-        GameObject slime = Object.Instantiate(slimeModels[slimeIdx]);
-        slime.transform.position = slimeSpawnPoints[spawnPointIdx].transform.position;
+    public void SpawnStandard()
+    {
+        if (spawnPoints == null)
+        {
+            Debug.Log("No spawn points !");
+            return;
+        }
+
+        SlimeType type = SlimeType.STANDARD;
+
+        GameObject selectedSpawn = SelectSpawn(GetSpawnType(type));
+
+        GameObject slime = Object.Instantiate(slimeModels[(int)type]);
+        slime.transform.position = selectedSpawn.transform.position;
 
         SlimeController slimeController = slime.GetComponent<SlimeController>();
-        slimeController.Type = (SlimeType)slimeIdx;
-        slimeController.InitSpeed = GetInitSpeed(slimeController.Type);
+        slimeController.Type = type;
+        slimeController.InitSpeed = GetInitSpeed(type);
         //Ignore collision between player and slime
         Physics2D.IgnoreCollision(slimeController.MainCollider, player.GetComponent<PlayerController>().MainCollider);
 
         RotateRandomly(slime);
 
         Slimes.Add(slime);
-
-        return true;
-    }
-
-    public bool SpawnSlime(SlimeType type)
-    {
-        if (slimeSpawnPoints == null)
-        {
-            return false;
-        }
-
-        int spawnPointIdx = Random.Range(0, slimeSpawnPoints.Count);
-
-        GameObject slime = Object.Instantiate(slimeModels[(int)type]);
-        slime.transform.position = slimeSpawnPoints[spawnPointIdx].transform.position;
-        //Ignore collision between player and slime
-        Physics2D.IgnoreCollision(slime.GetComponent<SlimeController>().MainCollider, player.GetComponent<PlayerController>().MainCollider);
-
-        RotateRandomly(slime);
-
-        Slimes.Add(slime);
-
-        return true;
-    }
-
-    public void ChangeSpawnPoints(List<GameObject> spawnPoints)
-    {
-        if (slimeSpawnPoints == null)
-        {
-            return;
-        }
-
-        slimeSpawnPoints.Clear();
-        slimeSpawnPoints.AddRange(spawnPoints);
     }
 
     private void RotateRandomly(GameObject slime)
@@ -121,5 +94,24 @@ public class SlimeManager
         }
 
         return 0;
+    }
+
+    private SpawnStorage.SpawnType GetSpawnType(SlimeType type)
+    {
+        switch (type)
+        {
+            case SlimeType.STANDARD:
+            case SlimeType.FAST:
+            case SlimeType.SLOW:
+            default:
+                return SpawnStorage.SpawnType.STANDARD;
+        }
+    }
+
+    private GameObject SelectSpawn(SpawnStorage.SpawnType type)
+    {
+        List<GameObject> filteredSpawns = spawnPoints.Where(x => x.GetComponent<SpawnStorage>().CurrentSpawnType == type).ToList();
+
+        return filteredSpawns[Random.Range(0, filteredSpawns.Count)];
     }
 }

@@ -45,7 +45,7 @@ public class DebugPhysicsHandler : MonoBehaviour
         if (currentSpawnTimer <= 0)
         {
             currentSpawnTimer = SPAWN_DURATION;
-            slimeManager.SpawnRandomSlime();
+            //slimeManager.SpawnRandomSlime();
         }
 
         // Manage ignore collisions between bullet and slimes
@@ -71,6 +71,6 @@ public class DebugPhysicsHandler : MonoBehaviour
             slimeSpawnPoints.Add(slimeSpawnPointsParentTransform.GetChild(i).gameObject);
         }
 
-        slimeManager.ChangeSpawnPoints(slimeSpawnPoints);
+        //slimeManager.ChangeSpawnPoints(slimeSpawnPoints);
     }
 }

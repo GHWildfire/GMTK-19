@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2093960729639864245}
   - component: {fileID: 2093960729639864244}
+  - component: {fileID: 1368117569359472194}
   m_Layer: 0
   m_Name: Spawn
   m_TagString: Untagged
@@ -79,3 +80,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1368117569359472194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2093960729639864202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db9071dfce72846479f28d44f50b56ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentSpawnType: 0
