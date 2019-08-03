@@ -38,6 +38,31 @@ public class SlimeManager
         Slimes = new List<GameObject>();
     }
 
+    public void Update()
+    {
+        // Manage ignore collisions between bullet and slimes
+        GameObject bulletRef = player.GetComponent<PlayerController>().BulletRef;
+        if (bulletRef != null)
+        {
+            for (int i = Slimes.Count - 1; i >= 0; i--)
+            {
+                GameObject slime = Slimes[i];
+
+                // Prevent accessing to null object
+                if (slime == null)
+                {
+                    Slimes.RemoveAt(i);
+                    continue;
+                }
+
+                Physics2D.IgnoreCollision(
+                    bulletRef.GetComponent<BulletController>().MainCollider,
+                    slime.GetComponent<SlimeController>().MainCollider
+                );
+            }
+        }
+    }
+
     public void ChangeLevel(Transform spawnsParent, Transform slimesParent)
     {
         Slimes.Clear();
