@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private const float MOVE_SPEED = 15;
 
     private float bulletSpeed = 40;
+    private float bulletDamage = 1;
 
     private bool isBulletReady;
 

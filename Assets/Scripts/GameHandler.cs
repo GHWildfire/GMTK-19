@@ -72,6 +72,20 @@ public class GameHandler : MonoBehaviour
         ActivateLevel();
     }
 
+    private void Update()
+    {
+        if (swapLevel)
+        {
+            SwapLevel();
+        }
+        else
+        {
+            HandleKeys();
+            UpdateLevel();
+            slimeManager.Update();
+        }
+    }
+
     private void FillSlimes()
     {
         mobs = new List<List<(float, SlimeManager.SpawmSlime)>>
@@ -132,32 +146,6 @@ public class GameHandler : MonoBehaviour
             levelsObjects[levelIndex].transform.Find("Spawns"),
             levelsObjects[levelIndex].transform.Find("Slimes")
         );
-    }
-
-    private void Update()
-    {
-        if (swapLevel)
-        {
-            SwapLevel();
-        } 
-        else
-        {
-            HandleKeys();
-            UpdateLevel();
-
-            // Manage ignore collisions between bullet and slimes
-            GameObject bulletRef = currentPlayer.GetComponent<PlayerController>().BulletRef;
-            if (bulletRef != null)
-            {
-                foreach (GameObject item in slimeManager.Slimes)
-                {
-                    Physics2D.IgnoreCollision(
-                        bulletRef.GetComponent<BulletController>().MainCollider,
-                        item.GetComponent<SlimeController>().MainCollider
-                    );
-                }
-            }
-        }
     }
 
     private void SwapLevel()
