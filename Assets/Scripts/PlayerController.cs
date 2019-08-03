@@ -6,9 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject bulletModel = null;
     [SerializeField] private GameObject weapon = null;
-    [SerializeField] private CircleCollider2D mainCollider = null;
+    public CircleCollider2D MainCollider;
+
+    public GameObject BulletRef { get; private set; }
 
     private const float MOVE_SPEED = 15;
+
+    private float bulletSpeed = 40;
 
     private bool isBulletReady;
 
@@ -104,9 +108,11 @@ public class PlayerController : MonoBehaviour
             bullet.transform.up = transform.up;
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.InitSpeed = 20;
+            bulletController.InitSpeed = bulletSpeed;
             // Ignore collision between the player and the bullet (trigger ok)
-            Physics2D.IgnoreCollision(mainCollider, bulletController.MainCollider);
+            Physics2D.IgnoreCollision(MainCollider, bulletController.MainCollider);
+
+            BulletRef = bullet;
         }
     }
 
