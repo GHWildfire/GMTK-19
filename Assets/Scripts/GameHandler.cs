@@ -217,19 +217,40 @@ public class GameHandler : MonoBehaviour
         {
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard),
+                (15, slimeManager.SpawnStandard),
+                (15, slimeManager.SpawnStandard)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnSlow),
+                (15, slimeManager.SpawnStandard),
+                (22, slimeManager.SpawnStandard),
+                (22, slimeManager.SpawnSlow)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnFast),
+                (8, slimeManager.SpawnFast),
+                (14, slimeManager.SpawnSlow),
+                (14, slimeManager.SpawnSlow),
+                (25, slimeManager.SpawnSlow),
+                (25, slimeManager.SpawnFast),
+                (25, slimeManager.SpawnStandard)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (8, slimeManager.SpawnFast),
+                (25, slimeManager.SpawnStandard),
+                (25, slimeManager.SpawnStandard),
+                (25, slimeManager.SpawnStandard),
+                (40, slimeManager.SpawnStandard),
+                (40, slimeManager.SpawnStandard),
+                (40, slimeManager.SpawnStandard)
             },
             // BOSS 1
             new List<(float, SlimeManager.SpawmSlime)>
@@ -239,19 +260,56 @@ public class GameHandler : MonoBehaviour
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard),
+                (14, slimeManager.SpawnStandard),
+                (14, slimeManager.SpawnStandard),
+                (20, slimeManager.SpawnStandard),
+                (20, slimeManager.SpawnStandard),
+                (26, slimeManager.SpawnSlow),
+                (26, slimeManager.SpawnSlow),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnFast),
+                (8, slimeManager.SpawnFast),
+                (14, slimeManager.SpawnFast),
+                (20, slimeManager.SpawnFast),
+                (26, slimeManager.SpawnSlow),
+                (26, slimeManager.SpawnSlow),
+                (35, slimeManager.SpawnStandard),
+                (35, slimeManager.SpawnStandard),
+                (35, slimeManager.SpawnStandard),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (2, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnSlow),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (1, slimeManager.SpawnFast),
+                (2, slimeManager.SpawnFast),
+                (3, slimeManager.SpawnFast),
+                (4, slimeManager.SpawnFast),
+                (5, slimeManager.SpawnFast),
+                (6, slimeManager.SpawnFast),
+                (7, slimeManager.SpawnFast),
+                (8, slimeManager.SpawnFast),
+                (9, slimeManager.SpawnFast),
+                (10, slimeManager.SpawnFast),
             },
             // BOSS 2
             new List<(float, SlimeManager.SpawmSlime)>
@@ -260,19 +318,138 @@ public class GameHandler : MonoBehaviour
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnFast),
+                (2, slimeManager.SpawnSlow),
+                (10, slimeManager.SpawnStandard),
+                (10, slimeManager.SpawnFast),
+                (10, slimeManager.SpawnSlow),
+                (17, slimeManager.SpawnStandard),
+                (17, slimeManager.SpawnFast),
+                (17, slimeManager.SpawnSlow),
+                (23, slimeManager.SpawnStandard),
+                (23, slimeManager.SpawnFast),
+                (23, slimeManager.SpawnSlow),
+                (28, slimeManager.SpawnStandard),
+                (28, slimeManager.SpawnFast),
+                (28, slimeManager.SpawnSlow),
+                (32, slimeManager.SpawnStandard),
+                (32, slimeManager.SpawnFast),
+                (32, slimeManager.SpawnSlow),
+                (35, slimeManager.SpawnStandard),
+                (35, slimeManager.SpawnFast),
+                (35, slimeManager.SpawnSlow),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (3, slimeManager.SpawnStandard),
+                (4, slimeManager.SpawnStandard),
+                (5, slimeManager.SpawnSlow),
+                (6, slimeManager.SpawnStandard),
+                (7, slimeManager.SpawnStandard),
+                (8, slimeManager.SpawnStandard),
+                (9, slimeManager.SpawnStandard),
+                (10, slimeManager.SpawnSlow),
+                (11, slimeManager.SpawnStandard),
+                (12, slimeManager.SpawnStandard),
+                (13, slimeManager.SpawnStandard),
+                (14, slimeManager.SpawnStandard),
+                (15, slimeManager.SpawnSlow),
+                (16, slimeManager.SpawnStandard),
+                (17, slimeManager.SpawnStandard),
+                (18, slimeManager.SpawnStandard),
+                (19, slimeManager.SpawnStandard),
+                (20, slimeManager.SpawnSlow),
+                (21, slimeManager.SpawnStandard),
+                (22, slimeManager.SpawnStandard),
+                (23, slimeManager.SpawnStandard),
+                (24, slimeManager.SpawnStandard),
+                (25, slimeManager.SpawnSlow),
+                (26, slimeManager.SpawnStandard),
+                (27, slimeManager.SpawnStandard),
+                (28, slimeManager.SpawnStandard),
+                (29, slimeManager.SpawnStandard),
+                (30, slimeManager.SpawnSlow),
+                (31, slimeManager.SpawnStandard),
+                (32, slimeManager.SpawnStandard),
+                (33, slimeManager.SpawnStandard),
+                (34, slimeManager.SpawnStandard),
+                (35, slimeManager.SpawnSlow),
+                (36, slimeManager.SpawnStandard),
+                (37, slimeManager.SpawnStandard),
+                (38, slimeManager.SpawnStandard),
+                (39, slimeManager.SpawnStandard),
+                (40, slimeManager.SpawnSlow),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnSlow),
+                (3, slimeManager.SpawnSlow),
+                (4, slimeManager.SpawnSlow),
+                (5, slimeManager.SpawnSlow),
+                (6, slimeManager.SpawnSlow),
+                (7, slimeManager.SpawnSlow),
+                (8, slimeManager.SpawnSlow),
+                (9, slimeManager.SpawnSlow),
+                (10, slimeManager.SpawnFast),
+                (11, slimeManager.SpawnSlow),
+                (12, slimeManager.SpawnSlow),
+                (13, slimeManager.SpawnSlow),
+                (14, slimeManager.SpawnSlow),
+                (15, slimeManager.SpawnSlow),
+                (16, slimeManager.SpawnSlow),
+                (17, slimeManager.SpawnSlow),
+                (18, slimeManager.SpawnSlow),
+                (19, slimeManager.SpawnSlow),
+                (20, slimeManager.SpawnFast),
+                (21, slimeManager.SpawnSlow),
+                (22, slimeManager.SpawnSlow),
+                (23, slimeManager.SpawnSlow),
+                (24, slimeManager.SpawnSlow),
+                (25, slimeManager.SpawnSlow),
+                (26, slimeManager.SpawnSlow),
+                (27, slimeManager.SpawnSlow),
+                (28, slimeManager.SpawnSlow),
+                (29, slimeManager.SpawnSlow),
+                (30, slimeManager.SpawnFast),
+                (31, slimeManager.SpawnSlow),
+                (32, slimeManager.SpawnSlow),
+                (33, slimeManager.SpawnSlow),
+                (34, slimeManager.SpawnSlow),
+                (35, slimeManager.SpawnSlow),
+                (36, slimeManager.SpawnSlow),
+                (37, slimeManager.SpawnSlow),
+                (38, slimeManager.SpawnSlow),
+                (39, slimeManager.SpawnSlow),
+                (40, slimeManager.SpawnFast),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (10, slimeManager.SpawnFast),
+                (10, slimeManager.SpawnFast),
+                (10, slimeManager.SpawnFast),
+                (10, slimeManager.SpawnFast),
+                (18, slimeManager.SpawnSlow),
+                (18, slimeManager.SpawnSlow),
+                (18, slimeManager.SpawnSlow),
+                (18, slimeManager.SpawnSlow),
+                (26, slimeManager.SpawnStandard),
+                (26, slimeManager.SpawnStandard),
+                (26, slimeManager.SpawnStandard),
+                (26, slimeManager.SpawnStandard),
+                (34, slimeManager.SpawnFast),
+                (34, slimeManager.SpawnFast),
+                (34, slimeManager.SpawnFast),
+                (34, slimeManager.SpawnFast),
+                (42, slimeManager.SpawnSlow),
+                (42, slimeManager.SpawnSlow),
+                (42, slimeManager.SpawnSlow),
+                (42, slimeManager.SpawnSlow),
             },
             // BOSS 3
             new List<(float, SlimeManager.SpawmSlime)>
@@ -281,15 +458,19 @@ public class GameHandler : MonoBehaviour
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnBoss2),
+                (2, slimeManager.SpawnBoss2),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnBoss3),
+                (2, slimeManager.SpawnBoss3),
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnBoss1),
+                (2, slimeManager.SpawnBoss1),
+                (2, slimeManager.SpawnBoss1),
             },
             // ALL BOSSES
             new List<(float, SlimeManager.SpawmSlime)>
