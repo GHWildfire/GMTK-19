@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rigid2d;
 
+    private float initCurrentLifeBarWidth;
+
     public void Init()
     {
         // Update the players max life
@@ -42,8 +44,7 @@ public class PlayerController : MonoBehaviour
         {
             UpgradeParameters.DidPlayerHeal = false;
 
-            CurrentLife += UpgradeParameters.HealPlayer;
-            UpgradeParameters.HealPlayer = 0;
+            CurrentLife += MaxLife * UpgradeParameters.HealPlayerFactor;
 
             if (CurrentLife > MaxLife)
             {
@@ -57,7 +58,7 @@ public class PlayerController : MonoBehaviour
         isBlinkingOn = false;
         currentInvincibleDurationAvailable = 0;
         currentInvincibleBlinkDurationAvailable = 0;
-        oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / MaxLife;
+        oneLifePointOnLifeBar = initCurrentLifeBarWidth / MaxLife;
 
         if (BulletRef != null)
         {
@@ -68,6 +69,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rigid2d = GetComponent<Rigidbody2D>();
+
+        initCurrentLifeBarWidth = currentLifeBar.transform.localScale.x;
 
         MaxLife = 0;
         CurrentLife = 0;

@@ -29,7 +29,7 @@ public class BulletController : MonoBehaviour
         InitSpeed = UpgradeParameters.BulletSpeed;
         Damage = UpgradeParameters.BulletDamages;
         TravelTime = UpgradeParameters.BulletTime;
-        transform.localScale = Vector2.one * UpgradeParameters.BulletScale;
+        transform.localScale *= UpgradeParameters.BulletScaleFactor;
     }
 
     private void Awake()

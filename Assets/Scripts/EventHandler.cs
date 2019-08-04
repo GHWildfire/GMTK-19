@@ -197,7 +197,7 @@ public class EventHandler : MonoBehaviour
                 UpgradeParameters.BulletDamages *= UpgradeParameters.BulletDamagesMult;
                 break;
             case UpgradeType.BULLET_SCALE:
-                UpgradeParameters.BulletScale *= UpgradeParameters.BulletScaleMult;
+                UpgradeParameters.BulletScaleFactor *= UpgradeParameters.BulletScaleFactorMult;
                 break;
             case UpgradeType.PLAYER_SPEED:
                 UpgradeParameters.PlayerSpeed *= UpgradeParameters.PlayerSpeedMult;
@@ -206,7 +206,7 @@ public class EventHandler : MonoBehaviour
                 UpgradeParameters.PlayerLife *= UpgradeParameters.PlayerLifeMult;
                 break;
             case UpgradeType.ENNEMY_SPEED:
-                UpgradeParameters.EnnemySpeed *= UpgradeParameters.EnnemySpeedMult;
+                UpgradeParameters.EnnemySpeedFactor *= UpgradeParameters.EnnemySpeedFactorMult;
                 break;
             default:
                 Debug.Log("Upgrade not implemented yet (" + upgradeType + ")");

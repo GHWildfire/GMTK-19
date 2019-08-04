@@ -32,7 +32,7 @@ public class SlimeController : MonoBehaviour
     public void Init(SlimeType type)
     {
         Type = type;
-        InitSpeed = GetInitSpeed(type) * UpgradeParameters.EnnemySpeed;
+        InitSpeed = GetInitSpeed(type) * UpgradeParameters.EnnemySpeedFactor;
         CurrentLife = GetInitLife(type);
         initRotationSpeed = GetInitRotationSpeed(type);
         oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / CurrentLife;
