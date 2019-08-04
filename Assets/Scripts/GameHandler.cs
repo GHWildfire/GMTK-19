@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GameHandler : MonoBehaviour
 {
+    public delegate void EndGameEvent(bool isWinner, float elapsedTimeValue, int reachedLevelValue, bool isLastLevelReached);
+    public static event EndGameEvent OnEndGameEvent;
+
     private enum SwapState
     {
         FADE_OUT,
@@ -18,6 +22,8 @@ public class GameHandler : MonoBehaviour
     {
         INIT,
         START,
+        PAUSE,
+        SWAP_LEVEL,
         END
     }
 
@@ -28,6 +34,11 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject playerModel;
     [SerializeField] private EventHandler eventHandler;
+
+    [Header("Canvas")]
+    [SerializeField] private Canvas upgardesCanvas;
+    [SerializeField] private Canvas inGameCanvas;
+    [SerializeField] private Canvas endGameCanvas;
 
     [Header("Slimes Models")]
     [SerializeField] private GameObject standardSlimeModel;
@@ -42,14 +53,17 @@ public class GameHandler : MonoBehaviour
     private GameObject[] levelsObjects;
     private Level[] levels;
     private List<List<(float, SlimeManager.SpawmSlime)>> mobs;
-    private int levelIndex;
-    private float initTime;
     private Vector3 initCamPos;
+
+    private int levelIndex;
 
     private bool swapLevel;
     private bool swapDirectionLeft;
-    private float initSwapTime;
     private bool useUpgrade;
+
+    private float initSwapTime;
+    private float initTime;
+    private float elapsedTime;
 
     private const float SWAP_DURATION = 1.5f;
     private const float CAMERA_MAX_OFFSET = 50;
@@ -93,6 +107,10 @@ public class GameHandler : MonoBehaviour
         swapState = SwapState.FADE_OUT;
         currentGameState = GameState.INIT;
 
+        upgardesCanvas.gameObject.SetActive(false);
+        inGameCanvas.gameObject.SetActive(false);
+        endGameCanvas.gameObject.SetActive(false);
+
         Description.text = "";
 
         canvas.SetActive(false);
@@ -109,6 +127,18 @@ public class GameHandler : MonoBehaviour
         currentPlayer.GetComponent<PlayerController>().Init();
     }
 
+    private void OnEnable()
+    {
+        InGameMenuManager.OnResumeGameEvent += ResumeOrPauseGame;
+        InGameMenuManager.OnRestartGameEvent += RestartGame;
+    }
+
+    private void OnDisable()
+    {
+        InGameMenuManager.OnResumeGameEvent -= ResumeOrPauseGame;
+        InGameMenuManager.OnRestartGameEvent -= RestartGame;
+    }
+
     private void Start()
     {
         currentGameState = GameState.START;
@@ -122,10 +152,12 @@ public class GameHandler : MonoBehaviour
         }
         else
         {
+            CheckInputs();
             CheckingPlayerAlive();
 
             if (currentGameState == GameState.START)
             {
+                elapsedTime += Time.deltaTime;
                 HandleKeys();
                 UpdateLevel();
                 slimeManager.Update();
@@ -133,12 +165,48 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    private void CheckInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ResumeOrPauseGame();
+        }
+    }
+
+    private void ResumeOrPauseGame()
+    {
+        if (currentGameState == GameState.START)
+        {
+            currentGameState = GameState.PAUSE;
+
+            inGameCanvas.gameObject.SetActive(true);
+        }
+        else if (currentGameState == GameState.PAUSE)
+        {
+            currentGameState = GameState.START;
+
+            inGameCanvas.gameObject.SetActive(false);
+        }
+
+        // TODO
+        // currentPlayer.getCom<playerCon>().ChangeGameState(curentGameState);
+        // Same for slimes
+    }
+
+    private void RestartGame()
+    {
+        Debug.Log("RESTARTED");
+    }
+
     private void CheckingPlayerAlive()
     {
-        if (currentPlayer == null)
+        if (currentPlayer == null &&
+            currentGameState == GameState.START)
         {
-            Debug.Log("YOU LOST !");
+            endGameCanvas.gameObject.SetActive(true);
             currentGameState = GameState.END;
+
+            OnEndGameEvent(false, elapsedTime, levelIndex + 1, false);
         }
     }
 
@@ -146,7 +214,7 @@ public class GameHandler : MonoBehaviour
     {
         mobs = new List<List<(float, SlimeManager.SpawmSlime)>>
         {
-            /*new List<(float, SlimeManager.SpawmSlime)>
+            new List<(float, SlimeManager.SpawmSlime)>
             {
                 (2, slimeManager.SpawnStandard)
             },
@@ -210,7 +278,10 @@ public class GameHandler : MonoBehaviour
             {
                 (2, slimeManager.SpawnBoss3)
             },
-            */
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
             new List<(float, SlimeManager.SpawmSlime)>
             {
                 (2, slimeManager.SpawnStandard)
@@ -235,6 +306,7 @@ public class GameHandler : MonoBehaviour
             for (int j = 0; j < spawnsObject.transform.childCount; j++)
             {
                 spawns[j] = spawnsObject.transform.GetChild(j).gameObject;
+                spawns[j].SetActive(false);
             }
 
             // Level (Script)
@@ -275,8 +347,12 @@ public class GameHandler : MonoBehaviour
                     swapState = SwapState.DISPLAY_UPGRADES;
                 }
                 break;
+
             case SwapState.DISPLAY_UPGRADES:
+                currentGameState = GameState.SWAP_LEVEL;
+
                 levels[levelIndex].ClearSlimes();
+
                 if (swapDirectionLeft)
                 {
                     levelIndex--;
@@ -292,8 +368,10 @@ public class GameHandler : MonoBehaviour
                 }
                 ActivateLevel();
                 break;
+
             case SwapState.WAIT_CHOICE:
                 break;
+
             case SwapState.FADE_IN:
                 if (Mathf.Abs(SWAP_DURATION - timePassed) > 0.1f)
                 {
@@ -305,12 +383,15 @@ public class GameHandler : MonoBehaviour
                     swapState = SwapState.FINISHED;
                 }
                 break;
+
             case SwapState.FINISHED:
                 initTime = Time.time;
                 mainCam.transform.position = initCamPos;
                 swapLevel = false;
                 Description.text = "";
+                currentGameState = GameState.START;
                 break;
+
             default:
                 break;
         }

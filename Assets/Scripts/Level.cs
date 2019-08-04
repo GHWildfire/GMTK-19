@@ -23,6 +23,12 @@ public class Level
         if (slimes.Count > 0)
         {
             (float, SlimeManager.SpawmSlime) slime = slimes[0];
+
+            if (slime.Item1 - 1 <= timePassed)
+            {
+                //slime.Item2();
+            }
+
             if (slime.Item1 <= timePassed)
             {
                 slime.Item2();

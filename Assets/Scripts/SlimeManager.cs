@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 public class SlimeManager
 {
@@ -11,6 +12,7 @@ public class SlimeManager
 
     private List<GameObject> slimeModels;
     private List<GameObject> spawnPoints;
+    private Dictionary<int, int> slimesSpawnPoints;
 
     private Transform slimesParent;
 
@@ -28,6 +30,8 @@ public class SlimeManager
             boss2SlimeModel,
             boss3SlimeModel
         };
+
+        slimesSpawnPoints = new Dictionary<int, int>();
 
         this.player = player;
 
@@ -116,7 +120,7 @@ public class SlimeManager
 
         GameObject selectedSpawn = SelectSpawn(SpawnStorage.GetSpawnType(type));
 
-        GameObject slime = Object.Instantiate(slimeModels[(int)type]);
+        GameObject slime = UnityEngine.Object.Instantiate(slimeModels[(int)type]);
         slime.transform.position = selectedSpawn.transform.position;
         slime.transform.SetParent(slimesParent);
 
@@ -132,14 +136,14 @@ public class SlimeManager
 
     private void RotateRandomly(GameObject slime)
     {
-        float rotation = Random.Range(0.0f, 360.0f);
+        float rotation = UnityEngine.Random.Range(0.0f, 360.0f);
         slime.GetComponent<SlimeController>().Body.transform.rotation = Quaternion.Euler(0, 0, rotation);
     }
 
     private GameObject SelectSpawn(SpawnStorage.SpawnType type)
     {
         List<GameObject> filteredSpawns = spawnPoints.Where(x => x.GetComponent<SpawnStorage>().CurrentSpawnType == type).ToList();
-        
-        return filteredSpawns[Random.Range(0, filteredSpawns.Count)];
+
+        return filteredSpawns[UnityEngine.Random.Range(0, filteredSpawns.Count)];
     }
 }
