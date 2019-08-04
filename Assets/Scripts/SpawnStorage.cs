@@ -26,6 +26,8 @@ public class SpawnStorage : MonoBehaviour
                 return SpawnType.BOSS;
             case SlimeController.SlimeType.BOSS3:
                 return SpawnType.BOSS;
+            case SlimeController.SlimeType.FINAL_BOSS:
+                return SpawnType.BOSS;
             default:
                 return SpawnType.STANDARD;
         }

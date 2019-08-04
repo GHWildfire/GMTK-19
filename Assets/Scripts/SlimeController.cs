@@ -11,7 +11,8 @@ public class SlimeController : MonoBehaviour
         SLOW,
         BOSS1,
         BOSS2,
-        BOSS3
+        BOSS3,
+        FINAL_BOSS
     }
 
     public CircleCollider2D MainCollider;
@@ -20,6 +21,9 @@ public class SlimeController : MonoBehaviour
     [SerializeField] private GameObject lifeBarParent;
     [SerializeField] private GameObject currentLifeBar;
     [SerializeField] private Animator animator;
+    
+    private AudioSource audio;
+    private AudioClip deathSound;
 
     public float InitSpeed { get; private set; }
     public float CurrentLife { get; private set; }
@@ -33,8 +37,11 @@ public class SlimeController : MonoBehaviour
     private float oneLifePointOnLifeBar;
     private float currentDamagingDuration;
 
-    public void Init(SlimeType type)
+    public void Init(SlimeType type, AudioSource audio, AudioClip deathSound)
     {
+        this.audio = audio;
+        this.deathSound = deathSound;
+
         Type = type;
         InitSpeed = GetInitSpeed(type) / UpgradeParameters.EnnemySpeedFactor;
         CurrentLife = GetInitLife(type);
@@ -118,6 +125,8 @@ public class SlimeController : MonoBehaviour
 
                 if (CurrentLife <= 0)
                 {
+                    audio.clip = deathSound;
+                    audio.Play();
                     Destroy(gameObject);
                 }
             }
@@ -167,6 +176,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.BOSS3:
                 return 60;
+
+            case SlimeType.FINAL_BOSS:
+                return 25;
         }
 
         return 0;
@@ -193,6 +205,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.BOSS3:
                 return 15;
+
+            case SlimeType.FINAL_BOSS:
+                return 100;
         }
 
         return 0;
@@ -219,6 +234,9 @@ public class SlimeController : MonoBehaviour
                 
             case SlimeType.BOSS3:
                 return 10;
+
+            case SlimeType.FINAL_BOSS:
+                return 2;
         }
 
         return 0;

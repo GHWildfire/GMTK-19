@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject bulletModel = null;
     [SerializeField] private GameObject weapon = null;
     [SerializeField] private GameObject currentLifeBar = null;
+
     public CircleCollider2D MainCollider;
 
     public GameObject BulletRef { get; private set; }
@@ -33,8 +34,16 @@ public class PlayerController : MonoBehaviour
 
     private float initCurrentLifeBarWidth;
 
-    public void Init()
+    private AudioSource audioSource;
+    private AudioClip gunShot;
+    private AudioClip emptyGunShot;
+
+    public void Init(GameObject level, AudioSource audioSource, AudioClip gunShot, AudioClip emptyGunShot)
     {
+        this.audioSource = audioSource;
+        this.gunShot = gunShot;
+        this.emptyGunShot = emptyGunShot;
+
         // Update the players max life
         float prevLife = MaxLife;
         MaxLife = UpgradeParameters.PlayerLife;
@@ -47,6 +56,16 @@ public class PlayerController : MonoBehaviour
 
             CurrentLife = Mathf.Min(CurrentLife + MaxLife * UpgradeParameters.HealPlayerFactor, MaxLife);
         }
+
+        // Spawn the player on a random spawn
+        List<GameObject> spawnPoints = new List<GameObject>();
+        Transform spawnsParent = level.transform.Find("Spawns");
+        for (int i = 0; i < spawnsParent.childCount; i++)
+        {
+            spawnPoints.Add(spawnsParent.GetChild(i).gameObject);
+        }
+        GameObject spawn = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        transform.position = spawn.transform.position;
 
         currentMove = new Vector2();
         isBulletReady = true;
@@ -227,6 +246,14 @@ public class PlayerController : MonoBehaviour
             Physics2D.IgnoreCollision(MainCollider, bulletController.MainCollider);
 
             BulletRef = bullet;
+
+            audioSource.clip = gunShot;
+            audioSource.Play();
+        }
+        else
+        {
+            audioSource.clip = emptyGunShot;
+            audioSource.Play();
         }
     }
 

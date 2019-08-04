@@ -16,6 +16,9 @@ public class SlimeManager
     private List<GameObject> spawnPoints;
     private Dictionary<int, GameObject> slimesSpawnPoints;
 
+    private AudioSource audio;
+    private AudioClip deathSound;
+
     private Transform slimesParent;
 
     private GameObject player;
@@ -23,7 +26,7 @@ public class SlimeManager
     private float currentTimeToScaleSpawn;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
-        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject player)
+        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject finalBossSlimeModel, GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
@@ -32,7 +35,8 @@ public class SlimeManager
             slowSlimeModel,
             boss1SlimeModel,
             boss2SlimeModel,
-            boss3SlimeModel
+            boss3SlimeModel,
+            finalBossSlimeModel
         };
 
         slimesSpawnPoints = new Dictionary<int, GameObject>();
@@ -42,6 +46,12 @@ public class SlimeManager
         Slimes = new List<GameObject>();
 
         currentTimeToScaleSpawn = 0;
+    }
+
+    public void SetAudio(AudioSource audio, AudioClip deathSound)
+    {
+        this.audio = audio;
+        this.deathSound = deathSound;
     }
 
     public void Init()
@@ -121,6 +131,11 @@ public class SlimeManager
         ManageSpawnSlime(SlimeController.SlimeType.BOSS3, slimeIdx, isSlimeReadyToSpawn);
     }
 
+    public void SpawnFinalBoss(int slimeIdx, bool isSlimeReadyToSpawn)
+    {
+        ManageSpawnSlime(SlimeController.SlimeType.FINAL_BOSS, slimeIdx, isSlimeReadyToSpawn);
+    }
+
     private void ManageSpawnSlime(SlimeController.SlimeType type, int slimeIdx, bool isSlimeReadyToSpawn)
     {
         // Select slime spawn point if none exists
@@ -156,7 +171,7 @@ public class SlimeManager
         selectedSpawn.SetActive(false);
 
         SlimeController slimeController = slime.GetComponent<SlimeController>();
-        slimeController.Init(type);
+        slimeController.Init(type, audio, deathSound);
         //Ignore collision between player and slime
         Physics2D.IgnoreCollision(slimeController.MainCollider, player.GetComponent<PlayerController>().MainCollider);
 
