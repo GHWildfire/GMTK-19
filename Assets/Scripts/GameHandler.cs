@@ -152,6 +152,7 @@ public class GameHandler : MonoBehaviour
         UpgradeParameters.Init();
 
         levelIndex = 0;
+        elapsedTime = 0;
         swapLevel = false;
         useUpgrade = false;
         swapDirectionLeft = false;
