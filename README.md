@@ -1,4 +1,4 @@
-# GMTK-19
+# Slimes Slayer GMTK-19
 Project for the GMTK Game Jam 2019 : https://spicy-paper.itch.io/slimes-slayer
 
 Slimes Slayer is a 2D shooter game made with Unity, in which you have only one bullet to kill all the slimes !
