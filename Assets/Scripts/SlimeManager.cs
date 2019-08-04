@@ -17,7 +17,7 @@ public class SlimeManager
     private GameObject player;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
-        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject player)
+        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
@@ -25,7 +25,8 @@ public class SlimeManager
             fastSlimeModel,
             slowSlimeModel,
             boss1SlimeModel,
-            boss2SlimeModel
+            boss2SlimeModel,
+            boss3SlimeModel
         };
 
         this.player = player;
@@ -77,61 +78,42 @@ public class SlimeManager
 
     public void SpawnStandard()
     {
-        if (spawnPoints == null)
-        {
-            Debug.Log("No spawn points !");
-            return;
-        }
-
         SpawnSlime(SlimeController.SlimeType.STANDARD);
     }
 
     public void SpawnSlow()
     {
-        if (spawnPoints == null)
-        {
-            Debug.Log("No spawn points !");
-            return;
-        }
-
         SpawnSlime(SlimeController.SlimeType.SLOW);
     }
 
     public void SpawnFast()
     {
-        if (spawnPoints == null)
-        {
-            Debug.Log("No spawn points !");
-            return;
-        }
-
         SpawnSlime(SlimeController.SlimeType.FAST);
     }
     
     public void SpawnBoss1()
     {
-        if (spawnPoints == null)
-        {
-            Debug.Log("No spawn points !");
-            return;
-        }
-
         SpawnSlime(SlimeController.SlimeType.BOSS1);
     }
 
     public void SpawnBoss2()
     {
+        SpawnSlime(SlimeController.SlimeType.BOSS2);
+    }
+
+    public void SpawnBoss3()
+    {
+        SpawnSlime(SlimeController.SlimeType.BOSS3);
+    }
+
+    private void SpawnSlime(SlimeController.SlimeType type)
+    {
         if (spawnPoints == null)
         {
             Debug.Log("No spawn points !");
             return;
         }
 
-        SpawnSlime(SlimeController.SlimeType.BOSS2);
-    }
-
-    private void SpawnSlime(SlimeController.SlimeType type)
-    {
         GameObject selectedSpawn = SelectSpawn(SpawnStorage.GetSpawnType(type));
 
         GameObject slime = Object.Instantiate(slimeModels[(int)type]);
