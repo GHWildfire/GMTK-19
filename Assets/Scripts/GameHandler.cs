@@ -49,6 +49,12 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject boss3SlimeModel;
     [SerializeField] private GameObject finalBossSlimeModel;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource Audio;
+    [SerializeField] private AudioClip SlimeDeathSound;
+    [SerializeField] private AudioClip GunShot;
+    [SerializeField] private AudioClip EmptyGunShot;
+
     public static Camera SharedCam;
 
     private GameObject[] levelsObjects;
@@ -83,7 +89,7 @@ public class GameHandler : MonoBehaviour
             canvas.SetActive(false);
             initSwapTime = Time.time;
             swapState = SwapState.FADE_IN;
-            currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex]);
+            currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex], Audio, GunShot, EmptyGunShot);
         }
     }
 
@@ -120,12 +126,13 @@ public class GameHandler : MonoBehaviour
 
         slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, 
             boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, finalBossSlimeModel, currentPlayer);
+        slimeManager.SetAudio(Audio, SlimeDeathSound);
 
         FillSlimes();
         FillLevels();
         ActivateLevel();
 
-        currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex]);
+        currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex], Audio, GunShot, EmptyGunShot);
     }
 
     private void OnEnable()

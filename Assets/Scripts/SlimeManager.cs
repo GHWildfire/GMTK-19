@@ -14,6 +14,9 @@ public class SlimeManager
     private List<GameObject> spawnPoints;
     private Dictionary<int, int> slimesSpawnPoints;
 
+    private AudioSource audio;
+    private AudioClip deathSound;
+
     private Transform slimesParent;
 
     private GameObject player;
@@ -37,6 +40,12 @@ public class SlimeManager
         this.player = player;
 
         Slimes = new List<GameObject>();
+    }
+
+    public void SetAudio(AudioSource audio, AudioClip deathSound)
+    {
+        this.audio = audio;
+        this.deathSound = deathSound;
     }
 
     public void Update()
@@ -131,7 +140,7 @@ public class SlimeManager
         slime.transform.SetParent(slimesParent);
 
         SlimeController slimeController = slime.GetComponent<SlimeController>();
-        slimeController.Init(type);
+        slimeController.Init(type, audio, deathSound);
         //Ignore collision between player and slime
         Physics2D.IgnoreCollision(slimeController.MainCollider, player.GetComponent<PlayerController>().MainCollider);
 

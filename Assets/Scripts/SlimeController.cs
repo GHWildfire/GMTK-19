@@ -21,6 +21,9 @@ public class SlimeController : MonoBehaviour
     [SerializeField] private GameObject lifeBarParent;
     [SerializeField] private GameObject currentLifeBar;
     [SerializeField] private Animator animator;
+    
+    private AudioSource audio;
+    private AudioClip deathSound;
 
     public float InitSpeed { get; private set; }
     public float CurrentLife { get; private set; }
@@ -33,8 +36,11 @@ public class SlimeController : MonoBehaviour
     private float oneLifePointOnLifeBar;
     private float currentDamagingDuration;
 
-    public void Init(SlimeType type)
+    public void Init(SlimeType type, AudioSource audio, AudioClip deathSound)
     {
+        this.audio = audio;
+        this.deathSound = deathSound;
+
         Type = type;
         InitSpeed = GetInitSpeed(type) / UpgradeParameters.EnnemySpeedFactor;
         CurrentLife = GetInitLife(type);
@@ -88,6 +94,8 @@ public class SlimeController : MonoBehaviour
 
                 if (CurrentLife <= 0)
                 {
+                    audio.clip = deathSound;
+                    audio.Play();
                     Destroy(gameObject);
                 }
             }
