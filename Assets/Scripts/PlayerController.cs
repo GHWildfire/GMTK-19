@@ -64,16 +64,6 @@ public class PlayerController : MonoBehaviour
         IsEnabled = true;
     }
 
-    public void PauseResumeGame(bool isEnabled)
-    {
-        IsEnabled = isEnabled;
-
-        if (BulletRef != null)
-        {
-            BulletRef.GetComponent<BulletController>().PauseResumeGame(IsEnabled);
-        }
-    }
-
     private void Awake()
     {
         rigid2d = GetComponent<Rigidbody2D>();
@@ -82,6 +72,16 @@ public class PlayerController : MonoBehaviour
 
         MaxLife = 0;
         CurrentLife = 0;
+    }
+
+    private void OnEnable()
+    {
+        GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+    }
+
+    private void OnDisable()
+    {
+        GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
     }
 
     private void Update()
@@ -113,6 +113,11 @@ public class PlayerController : MonoBehaviour
     {
         CheckBulletPickUp(collision);
         CheckPlayersDamage(collision);
+    }
+
+    private void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
     }
 
     private void CheckInputs()

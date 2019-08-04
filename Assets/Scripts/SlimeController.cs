@@ -49,11 +49,6 @@ public class SlimeController : MonoBehaviour
         IsEnabled = true;
     }
 
-    public void PauseResumeGame(bool isEnabled)
-    {
-        IsEnabled = isEnabled;
-    }
-
     private void Awake()
     {
         Rigid2d = GetComponent<Rigidbody2D>();
@@ -61,6 +56,16 @@ public class SlimeController : MonoBehaviour
         currentDamagingDuration = 0;
 
         lifeBarParent.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+    }
+
+    private void OnDisable()
+    {
+        GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
     }
 
     // Start is called before the first frame update
@@ -115,6 +120,11 @@ public class SlimeController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
     }
 
     /// <summary>

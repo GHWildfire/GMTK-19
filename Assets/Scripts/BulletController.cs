@@ -33,11 +33,6 @@ public class BulletController : MonoBehaviour
         transform.localScale *= UpgradeParameters.BulletScaleFactor;
     }
 
-    public void PauseResumeGame(bool isEnabled)
-    {
-        IsEnabled = isEnabled;
-    }
-
     private void Awake()
     {
         IsPlayerAbleToPickUp = false;
@@ -47,6 +42,16 @@ public class BulletController : MonoBehaviour
         reboundNumber = 0;
         currentStopMovingDuration = 0;
         currentPickUpDuration = DURATION_BEFORE_PLAYER_CAN_PICK_UP;
+    }
+
+    private void OnEnable()
+    {
+        GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+    }
+
+    private void OnDisable()
+    {
+        GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
     }
 
     private void Start()
@@ -93,6 +98,11 @@ public class BulletController : MonoBehaviour
 
             UpdateOrientation(rigid2d.velocity.normalized, transform);
         }
+    }
+
+    private void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
     }
 
     private void UpdateVelocityWhenTrigger(Collider2D collision)

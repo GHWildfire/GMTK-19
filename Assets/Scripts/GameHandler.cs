@@ -9,6 +9,12 @@ public class GameHandler : MonoBehaviour
     public delegate void EndGameEvent(bool isWinner, float elapsedTimeValue, int reachedLevelValue);
     public static event EndGameEvent OnEndGameEvent;
 
+    public delegate void PauseResumeGameEvent(bool isPaused);
+    public static event PauseResumeGameEvent OnPauseResumeGameEvent;
+
+    public delegate void RestartGameEvent();
+    public static event RestartGameEvent OnRestartGameEvent;
+
     private enum SwapState
     {
         FADE_OUT,
@@ -189,9 +195,7 @@ public class GameHandler : MonoBehaviour
             inGameCanvas.gameObject.SetActive(false);
         }
 
-        bool isGameRunning = currentGameState == GameState.START;
-        currentPlayer.GetComponent<PlayerController>().PauseResumeGame(isGameRunning);
-        slimeManager.PauseResumeGame(isGameRunning);
+        OnPauseResumeGameEvent(currentGameState == GameState.START);
     }
 
     private void RestartGame()
