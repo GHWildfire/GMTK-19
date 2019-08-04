@@ -21,7 +21,7 @@ public class EndMenuManager : MonoBehaviour
         GameHandler.OnEndGameEvent -= EndGame;
     }
 
-    private void EndGame(bool isWinner, float elapsedTimeValue, int reachedLevelValue, bool isLastLevelReached)
+    private void EndGame(bool isWinner, float elapsedTimeValue, int reachedLevelValue)
     {
         titleWon.gameObject.SetActive(isWinner);
         titleLost.gameObject.SetActive(!isWinner);
@@ -30,7 +30,7 @@ public class EndMenuManager : MonoBehaviour
         elapsedTime.text = ConvertFloatToDisplayableMinutesSeconds(elapsedTimeValue);
 
         string reachedLevelText = reachedLevelValue.ToString();
-        if (isLastLevelReached)
+        if (isWinner)
         {
             reachedLevelText += " (MAX)";
         }

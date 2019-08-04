@@ -6,7 +6,7 @@ using System;
 
 public class GameHandler : MonoBehaviour
 {
-    public delegate void EndGameEvent(bool isWinner, float elapsedTimeValue, int reachedLevelValue, bool isLastLevelReached);
+    public delegate void EndGameEvent(bool isWinner, float elapsedTimeValue, int reachedLevelValue);
     public static event EndGameEvent OnEndGameEvent;
 
     private enum SwapState
@@ -206,7 +206,7 @@ public class GameHandler : MonoBehaviour
             endGameCanvas.gameObject.SetActive(true);
             currentGameState = GameState.END;
 
-            OnEndGameEvent(false, elapsedTime, levelIndex + 1, false);
+            OnEndGameEvent(false, elapsedTime, levelIndex + 1);
         }
     }
 
@@ -415,14 +415,23 @@ public class GameHandler : MonoBehaviour
         Level activeLevel = levels[levelIndex];
         activeLevel.Update(Time.time - initTime);
 
-        if (activeLevel.Ended() && levelIndex < levelsObjects.Length - 1)
+        if (levelIndex < levelsObjects.Length - 1)
         {
-            ActivateSwap(false);
-            slimeManager.Init();
+            if (activeLevel.Ended())
+            {
+                ActivateSwap(false);
+                slimeManager.Init();
+            }
         }
         else
         {
-            // TODO WIN
+            if (currentGameState == GameState.START)
+            {
+                endGameCanvas.gameObject.SetActive(true);
+                currentGameState = GameState.END;
+
+                OnEndGameEvent(true, elapsedTime, levelIndex + 1);
+            }
         }
     }
 
