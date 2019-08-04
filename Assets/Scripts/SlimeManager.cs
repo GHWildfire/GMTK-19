@@ -26,7 +26,9 @@ public class SlimeManager
     private float currentTimeToScaleSpawn;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
-        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject finalBossSlimeModel, GameObject player)
+        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel,
+        GameObject finalBossSlimeModel, GameObject player,
+        AudioSource audio, AudioClip deathSound)
     {
         slimeModels = new List<GameObject>()
         {
@@ -39,6 +41,9 @@ public class SlimeManager
             finalBossSlimeModel
         };
 
+        this.audio = audio;
+        this.deathSound = deathSound;
+
         slimesSpawnPoints = new Dictionary<int, GameObject>();
 
         this.player = player;
@@ -46,12 +51,6 @@ public class SlimeManager
         Slimes = new List<GameObject>();
 
         currentTimeToScaleSpawn = 0;
-    }
-
-    public void SetAudio(AudioSource audio, AudioClip deathSound)
-    {
-        this.audio = audio;
-        this.deathSound = deathSound;
     }
 
     public void Init()

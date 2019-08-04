@@ -131,18 +131,14 @@ public class GameHandler : MonoBehaviour
         if (swapLevel)
         {
             SwapLevel();
-            Debug.Log("OK");
         }
         else
         {
-
-            Debug.Log("OK");
             CheckInputs();
             CheckingPlayerAlive();
 
             if (currentGameState == GameState.START)
             {
-                Debug.Log("OK");
                 elapsedTime += Time.deltaTime;
 
                 HandleKeys();
@@ -176,7 +172,8 @@ public class GameHandler : MonoBehaviour
         currentPlayer = Instantiate(playerModel);
 
         slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel,
-            boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, finalBossSlimeModel, currentPlayer);
+            boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, finalBossSlimeModel, currentPlayer,
+            Audio, SlimeDeathSound);
 
         FillSlimes();
         FillLevels();
