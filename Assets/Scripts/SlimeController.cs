@@ -61,11 +61,13 @@ public class SlimeController : MonoBehaviour
     private void OnEnable()
     {
         GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+        GameHandler.OnRestartGameEvent += RestartGame;
     }
 
     private void OnDisable()
     {
         GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
+        GameHandler.OnRestartGameEvent -= RestartGame;
     }
 
     // Start is called before the first frame update
@@ -120,6 +122,11 @@ public class SlimeController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void RestartGame()
+    {
+        Destroy(gameObject);
     }
 
     private void PauseResumeGame(bool isEnabled)

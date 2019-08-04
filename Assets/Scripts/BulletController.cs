@@ -47,11 +47,13 @@ public class BulletController : MonoBehaviour
     private void OnEnable()
     {
         GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+        GameHandler.OnRestartGameEvent += RestartGame;
     }
 
     private void OnDisable()
     {
         GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
+        GameHandler.OnRestartGameEvent -= RestartGame;
     }
 
     private void Start()
@@ -98,6 +100,11 @@ public class BulletController : MonoBehaviour
 
             UpdateOrientation(rigid2d.velocity.normalized, transform);
         }
+    }
+
+    private void RestartGame()
+    {
+        Destroy(gameObject);
     }
 
     private void PauseResumeGame(bool isEnabled)

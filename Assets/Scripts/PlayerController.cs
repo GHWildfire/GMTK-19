@@ -77,11 +77,13 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         GameHandler.OnPauseResumeGameEvent += PauseResumeGame;
+        GameHandler.OnRestartGameEvent += RestartGame;
     }
 
     private void OnDisable()
     {
         GameHandler.OnPauseResumeGameEvent -= PauseResumeGame;
+        GameHandler.OnRestartGameEvent -= RestartGame;
     }
 
     private void Update()
@@ -113,6 +115,11 @@ public class PlayerController : MonoBehaviour
     {
         CheckBulletPickUp(collision);
         CheckPlayersDamage(collision);
+    }
+
+    private void RestartGame()
+    {
+        Destroy(gameObject);
     }
 
     private void PauseResumeGame(bool isEnabled)

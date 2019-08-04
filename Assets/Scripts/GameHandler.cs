@@ -104,6 +104,51 @@ public class GameHandler : MonoBehaviour
     {
         SharedCam = mainCam;
 
+        Init();
+    }
+
+    private void OnEnable()
+    {
+        InGameMenuManager.OnResumeGameEvent += ResumeOrPauseGame;
+        InGameMenuManager.OnRestartGameEvent += RestartGame;
+    }
+
+    private void OnDisable()
+    {
+        InGameMenuManager.OnResumeGameEvent -= ResumeOrPauseGame;
+        InGameMenuManager.OnRestartGameEvent -= RestartGame;
+    }
+
+    private void Update()
+    {
+        if (swapLevel)
+        {
+            SwapLevel();
+            Debug.Log("OK");
+        }
+        else
+        {
+
+            Debug.Log("OK");
+            CheckInputs();
+            CheckingPlayerAlive();
+
+            if (currentGameState == GameState.START)
+            {
+                Debug.Log("OK");
+                elapsedTime += Time.deltaTime;
+
+                HandleKeys();
+                UpdateLevel();
+                slimeManager.Update();
+            }
+        }
+    }
+
+    private void Init()
+    {
+        UpgradeParameters.Init();
+
         levelIndex = 0;
         initTime = Time.time;
         swapLevel = false;
@@ -123,7 +168,7 @@ public class GameHandler : MonoBehaviour
 
         currentPlayer = Instantiate(playerModel);
 
-        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, 
+        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel,
             boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, currentPlayer);
 
         FillSlimes();
@@ -131,45 +176,8 @@ public class GameHandler : MonoBehaviour
         ActivateLevel();
 
         currentPlayer.GetComponent<PlayerController>().Init();
-    }
 
-    private void OnEnable()
-    {
-        InGameMenuManager.OnResumeGameEvent += ResumeOrPauseGame;
-        InGameMenuManager.OnRestartGameEvent += RestartGame;
-    }
-
-    private void OnDisable()
-    {
-        InGameMenuManager.OnResumeGameEvent -= ResumeOrPauseGame;
-        InGameMenuManager.OnRestartGameEvent -= RestartGame;
-    }
-
-    private void Start()
-    {
         currentGameState = GameState.START;
-    }
-
-    private void Update()
-    {
-        if (swapLevel)
-        {
-            SwapLevel();
-        }
-        else
-        {
-            CheckInputs();
-            CheckingPlayerAlive();
-
-            if (currentGameState == GameState.START)
-            {
-                elapsedTime += Time.deltaTime;
-
-                HandleKeys();
-                UpdateLevel();
-                slimeManager.Update();
-            }
-        }
     }
 
     private void CheckInputs()
@@ -200,7 +208,19 @@ public class GameHandler : MonoBehaviour
 
     private void RestartGame()
     {
-        Debug.Log("RESTARTED");
+        currentGameState = GameState.INIT;
+
+        OnRestartGameEvent();
+
+        foreach (List<(float, SlimeManager.SpawmSlime)> item in mobs)
+        {
+            item.Clear();
+        }
+        mobs.Clear();
+
+        levels[levelIndex].ClearSlimes();
+
+        Init();
     }
 
     private void CheckingPlayerAlive()
@@ -232,11 +252,11 @@ public class GameHandler : MonoBehaviour
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnFast)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnSlow)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
