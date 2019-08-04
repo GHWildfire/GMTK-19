@@ -34,6 +34,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject fastSlimeModel;
     [SerializeField] private GameObject slowSlimeModel;
     [SerializeField] private GameObject boss1SlimeModel;
+    [SerializeField] private GameObject boss2SlimeModel;
 
     public static Camera SharedCam;
 
@@ -97,7 +98,8 @@ public class GameHandler : MonoBehaviour
 
         currentPlayer = Instantiate(playerModel);
 
-        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, boss1SlimeModel, currentPlayer);
+        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, 
+            boss1SlimeModel, boss2SlimeModel, currentPlayer);
 
         FillSlimes();
         FillLevels();
@@ -143,39 +145,51 @@ public class GameHandler : MonoBehaviour
     {
         mobs = new List<List<(float, SlimeManager.SpawmSlime)>>
         {
-            new List<(float, SlimeManager.SpawmSlime)>
+            /*new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard),
-                (4, slimeManager.SpawnStandard),
-                (6, slimeManager.SpawnStandard),
-                (8, slimeManager.SpawnSlow)
+                (2, slimeManager.SpawnStandard)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnSlow),
-                (4, slimeManager.SpawnStandard),
-                (6, slimeManager.SpawnSlow),
-                (8, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnSlow),
-                (4, slimeManager.SpawnStandard),
-                (6, slimeManager.SpawnSlow),
-                (8, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnSlow),
-                (4, slimeManager.SpawnStandard),
-                (6, slimeManager.SpawnSlow),
-                (8, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard)
             },
+            // BOSS 1
             new List<(float, SlimeManager.SpawmSlime)>
             {
                 (2, slimeManager.SpawnBoss1),
                 (2, slimeManager.SpawnBoss1)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
+            // BOSS 2
+            */
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnBoss2)
             }
+
         };
     }
 

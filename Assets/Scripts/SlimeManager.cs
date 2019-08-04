@@ -17,14 +17,15 @@ public class SlimeManager
     private GameObject player;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
-        GameObject boss1SlimeModel, GameObject player)
+        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
             standardSlimeModel,
             fastSlimeModel,
             slowSlimeModel,
-            boss1SlimeModel
+            boss1SlimeModel,
+            boss2SlimeModel
         };
 
         this.player = player;
@@ -96,6 +97,17 @@ public class SlimeManager
         SpawnSlime(SlimeController.SlimeType.SLOW);
     }
 
+    public void SpawnFast()
+    {
+        if (spawnPoints == null)
+        {
+            Debug.Log("No spawn points !");
+            return;
+        }
+
+        SpawnSlime(SlimeController.SlimeType.FAST);
+    }
+    
     public void SpawnBoss1()
     {
         if (spawnPoints == null)
@@ -105,6 +117,17 @@ public class SlimeManager
         }
 
         SpawnSlime(SlimeController.SlimeType.BOSS1);
+    }
+
+    public void SpawnBoss2()
+    {
+        if (spawnPoints == null)
+        {
+            Debug.Log("No spawn points !");
+            return;
+        }
+
+        SpawnSlime(SlimeController.SlimeType.BOSS2);
     }
 
     private void SpawnSlime(SlimeController.SlimeType type)

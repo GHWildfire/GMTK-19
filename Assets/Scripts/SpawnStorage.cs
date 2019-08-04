@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpawnStorage : MonoBehaviour
 {
@@ -23,6 +21,8 @@ public class SpawnStorage : MonoBehaviour
             case SlimeController.SlimeType.SLOW:
                 return SpawnType.STANDARD;
             case SlimeController.SlimeType.BOSS1:
+                return SpawnType.BOSS;
+            case SlimeController.SlimeType.BOSS2:
                 return SpawnType.BOSS;
             default:
                 return SpawnType.STANDARD;
