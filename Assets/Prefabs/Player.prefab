@@ -355,6 +355,7 @@ MonoBehaviour:
   sprites:
   - {fileID: 2089615769}
   - {fileID: 139375807188480535}
+  - {fileID: 7283266244142646008}
   bulletModel: {fileID: 1956646450423965173, guid: fcc986411760da84990ada12a09a94f7,
     type: 3}
   weapon: {fileID: 2089615767}
