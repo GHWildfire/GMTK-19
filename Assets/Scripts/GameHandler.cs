@@ -195,6 +195,8 @@ public class GameHandler : MonoBehaviour
             levelsObjects[levelIndex].transform.Find("Spawns"),
             levelsObjects[levelIndex].transform.Find("Slimes")
         );
+
+        currentPlayer.GetComponent<PlayerController>().Init();
     }
 
     private void SwapLevel()

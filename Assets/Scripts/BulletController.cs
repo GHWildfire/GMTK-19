@@ -24,11 +24,12 @@ public class BulletController : MonoBehaviour
 
     private int reboundNumber;
 
-    public void Init(float initSpeed, float damage, float travelTime)
+    public void Init()
     {
-        InitSpeed = initSpeed;
-        Damage = damage;
-        TravelTime = travelTime;
+        InitSpeed = UpgradeParameters.BulletSpeed;
+        Damage = UpgradeParameters.BulletDamages;
+        TravelTime = UpgradeParameters.BulletTime;
+        transform.localScale = Vector2.one * UpgradeParameters.BulletScale;
     }
 
     private void Awake()
