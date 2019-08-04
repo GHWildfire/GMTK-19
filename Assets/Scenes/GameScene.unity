@@ -8227,7 +8227,7 @@ MonoBehaviour:
     UpgradeType: 3
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: cc427a4ce63fe7743ad541636b42e53e, type: 3}
+  - Sprite: {fileID: 21300000, guid: 3fe52c190af050a499a7d5d891a63137, type: 3}
     Description: Increase your speed by 15%
     UpgradeType: 4
     CurrentLevel: 0
