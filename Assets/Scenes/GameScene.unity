@@ -283,6 +283,7 @@ MonoBehaviour:
   canvas: {fileID: 1771780498}
   playerModel: {fileID: 6892516524280436826, guid: 3d0b1ebe97d85d44a94032ce01277c18,
     type: 3}
+  spawnModel: {fileID: 0}
   eventHandler: {fileID: 1771780503}
   upgardesCanvas: {fileID: 1771780501}
   inGameCanvas: {fileID: 255045393}

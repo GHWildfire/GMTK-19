@@ -33,6 +33,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject playerModel;
+    [SerializeField] private GameObject spawnModel;
     [SerializeField] private EventHandler eventHandler;
 
     [Header("Canvas")]
@@ -202,7 +203,7 @@ public class GameHandler : MonoBehaviour
             endGameCanvas.gameObject.SetActive(true);
             currentGameState = GameState.END;
 
-            OnEndGameEvent(false, elapsedTime, levelIndex, false);
+            OnEndGameEvent(false, elapsedTime, levelIndex + 1, false);
         }
     }
 
@@ -244,6 +245,7 @@ public class GameHandler : MonoBehaviour
             for (int j = 0; j < spawnsObject.transform.childCount; j++)
             {
                 spawns[j] = spawnsObject.transform.GetChild(j).gameObject;
+                spawns[j].SetActive(false);
             }
 
             // Level (Script)
