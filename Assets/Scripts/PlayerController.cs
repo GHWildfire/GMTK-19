@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private float initCurrentLifeBarWidth;
 
-    public void Init()
+    public void Init(GameObject level)
     {
         // Update the players max life
         float prevLife = MaxLife;
@@ -46,6 +46,16 @@ public class PlayerController : MonoBehaviour
 
             CurrentLife = Mathf.Min(CurrentLife + MaxLife * UpgradeParameters.HealPlayerFactor, MaxLife);
         }
+
+        // Spawn the player on a random spawn
+        List<GameObject> spawnPoints = new List<GameObject>();
+        Transform spawnsParent = level.transform.Find("Spawns");
+        for (int i = 0; i < spawnsParent.childCount; i++)
+        {
+            spawnPoints.Add(spawnsParent.GetChild(i).gameObject);
+        }
+        GameObject spawn = spawnPoints[Random.Range(0, spawnPoints.Count)];
+        transform.position = spawn.transform.position;
 
         currentMove = new Vector2();
         isBulletReady = true;

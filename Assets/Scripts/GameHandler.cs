@@ -83,7 +83,7 @@ public class GameHandler : MonoBehaviour
             canvas.SetActive(false);
             initSwapTime = Time.time;
             swapState = SwapState.FADE_IN;
-            currentPlayer.GetComponent<PlayerController>().Init();
+            currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex]);
         }
     }
 
@@ -125,7 +125,7 @@ public class GameHandler : MonoBehaviour
         FillLevels();
         ActivateLevel();
 
-        currentPlayer.GetComponent<PlayerController>().Init();
+        currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex]);
     }
 
     private void OnEnable()
