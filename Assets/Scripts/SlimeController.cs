@@ -14,6 +14,8 @@ public class SlimeController : MonoBehaviour
     public CircleCollider2D MainCollider;
     public GameObject Body;
     public GameObject BodySprite;
+    [SerializeField] private GameObject lifeBarParent;
+    [SerializeField] private GameObject currentLifeBar;
 
     public float InitSpeed { get; private set; }
     public float CurrentLife { get; private set; }
@@ -21,6 +23,7 @@ public class SlimeController : MonoBehaviour
     public Rigidbody2D Rigid2d { get; private set; }
 
     private float initRotationSpeed;
+    private float oneLifePointOnLifeBar;
 
     public void Init(SlimeType type)
     {
@@ -28,6 +31,7 @@ public class SlimeController : MonoBehaviour
         InitSpeed = GetInitSpeed(type);
         CurrentLife = GetInitLife(type);
         initRotationSpeed = GetInitRotationSpeed(type);
+        oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / CurrentLife;
 
         int rand = Random.Range(0, 2);
         if (rand == 0)
@@ -39,6 +43,8 @@ public class SlimeController : MonoBehaviour
     private void Awake()
     {
         Rigid2d = GetComponent<Rigidbody2D>();
+
+        lifeBarParent.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -49,7 +55,11 @@ public class SlimeController : MonoBehaviour
 
     private void Update()
     {
+        // Rotate sprite
         BodySprite.transform.Rotate(transform.forward * initRotationSpeed);
+
+        // Update life bar
+        currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -57,6 +67,7 @@ public class SlimeController : MonoBehaviour
         if (collision.tag == Utility.FromTag(Utility.Tag.BULLET))
         {
             CurrentLife -= collision.GetComponent<BulletController>().Damage;
+            lifeBarParent.SetActive(true);
 
             if (CurrentLife <= 0)
             {

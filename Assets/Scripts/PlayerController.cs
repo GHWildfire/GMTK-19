@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private GameObject spritesParent;
     [SerializeField] private GameObject bulletModel = null;
     [SerializeField] private GameObject weapon = null;
+    [SerializeField] private GameObject currentLifeBar = null;
     public CircleCollider2D MainCollider;
 
     public GameObject BulletRef { get; private set; }
@@ -16,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private float bulletSpeed = 40;
     private float bulletDamage = 1;
     private float bulletTravelTime = 3;
+    private float oneLifePointOnLifeBar;
 
     private bool isBulletReady;
 
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour
         rigid2d = GetComponent<Rigidbody2D>();
         currentMove = new Vector2();
         isBulletReady = true;
+        oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / CurrentLife;
     }
 
     private void Update()
@@ -36,6 +40,9 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerOrientation();
 
         CheckInputs();
+
+        // Update life bar
+        currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
     }
 
     private void FixedUpdate()
@@ -113,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
             GameObject bullet = Instantiate(bulletModel);
             bullet.transform.position = weapon.transform.position;
-            bullet.transform.up = transform.up;
+            bullet.transform.up = spritesParent.transform.up;
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
             bulletController.Init(bulletSpeed, bulletDamage, bulletTravelTime);
@@ -135,7 +142,7 @@ public class PlayerController : MonoBehaviour
             mousePos.y - transform.position.y
         );
 
-        transform.up = direction;
+        spritesParent.transform.up = direction;
     }
 
     private void CheckBulletPickUp(Collider2D collision)
