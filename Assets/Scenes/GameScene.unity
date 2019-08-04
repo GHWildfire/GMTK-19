@@ -3253,7 +3253,7 @@ MonoBehaviour:
     CurrentLevel: 0
     LevelMax: 3
   - Sprite: {fileID: 21300000, guid: 8ff725f57ede2334a8a0fcfdee89b1c0, type: 3}
-    Description: Slow down the slimes by 15%
+    Description: Slow down the slimes by 30%
     UpgradeType: 6
     CurrentLevel: 0
     LevelMax: 3

@@ -44,12 +44,7 @@ public class PlayerController : MonoBehaviour
         {
             UpgradeParameters.DidPlayerHeal = false;
 
-            CurrentLife += MaxLife * UpgradeParameters.HealPlayerFactor;
-
-            if (CurrentLife > MaxLife)
-            {
-                CurrentLife = MaxLife;
-            }
+            CurrentLife = Mathf.Min(CurrentLife + MaxLife * UpgradeParameters.HealPlayerFactor, MaxLife);
         }
 
         currentMove = new Vector2();

@@ -65,6 +65,7 @@ public class GameHandler : MonoBehaviour
             canvas.SetActive(false);
             initSwapTime = Time.time;
             swapState = SwapState.FADE_IN;
+            currentPlayer.GetComponent<PlayerController>().Init();
         }
     }
 
@@ -100,6 +101,8 @@ public class GameHandler : MonoBehaviour
         FillSlimes();
         FillLevels();
         ActivateLevel();
+
+        currentPlayer.GetComponent<PlayerController>().Init();
     }
 
     private void Start()
@@ -195,8 +198,6 @@ public class GameHandler : MonoBehaviour
             levelsObjects[levelIndex].transform.Find("Spawns"),
             levelsObjects[levelIndex].transform.Find("Slimes")
         );
-
-        currentPlayer.GetComponent<PlayerController>().Init();
     }
 
     private void SwapLevel()

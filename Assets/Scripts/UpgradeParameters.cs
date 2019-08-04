@@ -18,5 +18,5 @@ public static class UpgradeParameters
     public static float BulletScaleFactorMult = 1.3f;
     public static float PlayerSpeedMult = 1.15f;
     public static float PlayerLifeMult = 2f;
-    public static float EnnemySpeedFactorMult = 1.15f;
+    public static float EnnemySpeedFactorMult = 1.3f;
 }
