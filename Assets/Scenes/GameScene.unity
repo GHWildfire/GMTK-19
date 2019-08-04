@@ -409,7 +409,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -450, y: 50}
-  m_SizeDelta: {x: 250, y: 250}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &295665284
 MonoBehaviour:
@@ -1375,8 +1375,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: 50}
-  m_SizeDelta: {x: 250, y: 250}
+  m_AnchoredPosition: {x: 70, y: 50}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &876931391
 MonoBehaviour:
@@ -3222,7 +3222,7 @@ MonoBehaviour:
   - {fileID: 876931391}
   HealButton: {fileID: 2086368701}
   Upgrades:
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: 1b50478843562844faa73b29559eaeb0, type: 3}
     Description: Increase the speed of the bullet by 30%
     UpgradeType: 0
     CurrentLevel: 0
@@ -3232,27 +3232,27 @@ MonoBehaviour:
     UpgradeType: 1
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: 5dba7e8c65e80ed47879b7465e696cb2, type: 3}
     Description: Increase the damages dealt by the bullet by 30%
     UpgradeType: 2
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: 09ea45b2f13e7df4a9798360cdee1fa5, type: 3}
     Description: Increase the size of the bullet by 30%
     UpgradeType: 3
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: cc427a4ce63fe7743ad541636b42e53e, type: 3}
     Description: Increase the speed of the player by 15%
     UpgradeType: 4
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: 72169a4794dd4fc49aa02fc8897b40ae, type: 3}
     Description: Increase the life of the player by 100%
     UpgradeType: 5
     CurrentLevel: 0
     LevelMax: 3
-  - Sprite: {fileID: 21300000, guid: 207c5c34bc7d7ce4ebab412beebf163d, type: 3}
+  - Sprite: {fileID: 21300000, guid: 8ff725f57ede2334a8a0fcfdee89b1c0, type: 3}
     Description: Slow down the slimes by 15%
     UpgradeType: 6
     CurrentLevel: 0
@@ -3366,8 +3366,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: 50}
-  m_SizeDelta: {x: 10, y: 300}
+  m_AnchoredPosition: {x: 280, y: 50}
+  m_SizeDelta: {x: 10, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790292872
 MonoBehaviour:
@@ -3382,7 +3382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3773585, g: 0.3773585, b: 0.3773585, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3443,8 +3443,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -150, y: 50}
-  m_SizeDelta: {x: 250, y: 250}
+  m_AnchoredPosition: {x: -190, y: 50}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1831819531
 MonoBehaviour:
@@ -4157,7 +4157,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 450, y: 50}
-  m_SizeDelta: {x: 250, y: 250}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2086368701
 MonoBehaviour:
