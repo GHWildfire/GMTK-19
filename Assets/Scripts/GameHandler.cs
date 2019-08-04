@@ -6,6 +6,9 @@ using System;
 
 public class GameHandler : MonoBehaviour
 {
+    public delegate void EndGameEvent(bool isWinner, float elapsedTimeValue, int reachedLevelValue, bool isLastLevelReached);
+    public static event EndGameEvent OnEndGameEvent;
+
     private enum SwapState
     {
         FADE_OUT,
@@ -35,6 +38,7 @@ public class GameHandler : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] private Canvas upgardesCanvas;
     [SerializeField] private Canvas inGameCanvas;
+    [SerializeField] private Canvas endGameCanvas;
 
     [Header("Slimes Models")]
     [SerializeField] private GameObject standardSlimeModel;
@@ -46,14 +50,17 @@ public class GameHandler : MonoBehaviour
     private GameObject[] levelsObjects;
     private Level[] levels;
     private List<List<(float, SlimeManager.SpawmSlime)>> mobs;
-    private int levelIndex;
-    private float initTime;
     private Vector3 initCamPos;
+
+    private int levelIndex;
 
     private bool swapLevel;
     private bool swapDirectionLeft;
-    private float initSwapTime;
     private bool useUpgrade;
+
+    private float initSwapTime;
+    private float initTime;
+    private float elapsedTime;
 
     private const float SWAP_DURATION = 1.5f;
     private const float CAMERA_MAX_OFFSET = 50;
@@ -99,6 +106,7 @@ public class GameHandler : MonoBehaviour
 
         upgardesCanvas.gameObject.SetActive(false);
         inGameCanvas.gameObject.SetActive(false);
+        endGameCanvas.gameObject.SetActive(false);
 
         Description.text = "";
 
@@ -145,6 +153,7 @@ public class GameHandler : MonoBehaviour
 
             if (currentGameState == GameState.START)
             {
+                elapsedTime += Time.deltaTime;
                 HandleKeys();
                 UpdateLevel();
                 slimeManager.Update();
@@ -187,10 +196,13 @@ public class GameHandler : MonoBehaviour
 
     private void CheckingPlayerAlive()
     {
-        if (currentPlayer == null)
+        if (currentPlayer == null &&
+            currentGameState == GameState.START)
         {
-            Debug.Log("YOU LOST !");
+            endGameCanvas.gameObject.SetActive(true);
             currentGameState = GameState.END;
+
+            OnEndGameEvent(false, elapsedTime, levelIndex, false);
         }
     }
 
