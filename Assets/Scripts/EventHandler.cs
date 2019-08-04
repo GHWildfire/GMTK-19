@@ -6,7 +6,16 @@ using TMPro;
 
 public class EventHandler : MonoBehaviour
 {
-    public enum UpgradeType { INCREASE_HP, INCREASE_BULLET_SPEED, INCREASE_BULLET_SIZE, INCREASE_BULLET_TIME }
+    public enum UpgradeType
+    {
+        BULLET_SPEED,
+        BULLET_TIME,
+        BULLET_DAMAGES,
+        BULLET_SCALE,
+        PLAYER_SPEED,
+        PLAYER_LIFE,
+        ENNEMY_SPEED
+    }
 
     [SerializeField] private GameObject HandlerObject;
 
@@ -20,7 +29,7 @@ public class EventHandler : MonoBehaviour
     {
         public Sprite Sprite = null;
         public string Description = "No description";
-        public UpgradeType UpgradeType = UpgradeType.INCREASE_HP;
+        public UpgradeType UpgradeType = UpgradeType.BULLET_SPEED;
         public int CurrentLevel = 0;
         public int LevelMax = 1;
     }
@@ -50,14 +59,14 @@ public class EventHandler : MonoBehaviour
                     ApplyUpgrade(upgrade.UpgradeType);
                 }
             }
-
-            handler.UpgradeSelected();
         }
 
         if (buttonPressed == HealButton)
         {
             UpgradeParameters.DidPlayerHeal = true;
         }
+
+        handler.UpgradeSelected();
     }
 
     public void DisplayDescription(Button buttonHovered)
@@ -99,7 +108,7 @@ public class EventHandler : MonoBehaviour
     {
         handler = HandlerObject.GetComponent<GameHandler>();
 
-        HealButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Heal 3 life points";
+        HealButton.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "Heal 33% of your maximum life points";
     }
 
     private List<UpgradeClass> UpgradesDeepCopy(List<UpgradeClass> source)
@@ -178,17 +187,26 @@ public class EventHandler : MonoBehaviour
     {
         switch (upgradeType)
         {
-            case UpgradeType.INCREASE_HP:
-                UpgradeParameters.PlayerLife *= UpgradeParameters.PlayerLifeMult;
-                break;
-            case UpgradeType.INCREASE_BULLET_SIZE:
-                UpgradeParameters.BulletScale *= UpgradeParameters.BulletScaleMult;
-                break;
-            case UpgradeType.INCREASE_BULLET_SPEED:
+            case UpgradeType.BULLET_SPEED:
                 UpgradeParameters.BulletSpeed *= UpgradeParameters.BulletSpeedMult;
                 break;
-            case UpgradeType.INCREASE_BULLET_TIME:
+            case UpgradeType.BULLET_TIME:
                 UpgradeParameters.BulletTime *= UpgradeParameters.BulletTimeMult;
+                break;
+            case UpgradeType.BULLET_DAMAGES:
+                UpgradeParameters.BulletDamages *= UpgradeParameters.BulletDamagesMult;
+                break;
+            case UpgradeType.BULLET_SCALE:
+                UpgradeParameters.BulletScale *= UpgradeParameters.BulletScaleMult;
+                break;
+            case UpgradeType.PLAYER_SPEED:
+                UpgradeParameters.PlayerSpeed *= UpgradeParameters.PlayerSpeedMult;
+                break;
+            case UpgradeType.PLAYER_LIFE:
+                UpgradeParameters.PlayerLife *= UpgradeParameters.PlayerLifeMult;
+                break;
+            case UpgradeType.ENNEMY_SPEED:
+                UpgradeParameters.EnnemySpeed *= UpgradeParameters.EnnemySpeedMult;
                 break;
             default:
                 Debug.Log("Upgrade not implemented yet (" + upgradeType + ")");
