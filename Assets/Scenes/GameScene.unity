@@ -3243,12 +3243,12 @@ MonoBehaviour:
     CurrentLevel: 0
     LevelMax: 3
   - Sprite: {fileID: 21300000, guid: cc427a4ce63fe7743ad541636b42e53e, type: 3}
-    Description: Increase the speed of the player by 15%
+    Description: Increase your speed by 15%
     UpgradeType: 4
     CurrentLevel: 0
     LevelMax: 3
   - Sprite: {fileID: 21300000, guid: 72169a4794dd4fc49aa02fc8897b40ae, type: 3}
-    Description: Increase the life of the player by 100%
+    Description: Increase your life points by 100%
     UpgradeType: 5
     CurrentLevel: 0
     LevelMax: 3
