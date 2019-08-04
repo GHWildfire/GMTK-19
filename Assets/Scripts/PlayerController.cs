@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public GameObject BulletRef { get; private set; }
     public float MaxLife { get; private set; }
     public float CurrentLife { get; private set; }
+    public bool IsEnabled { get; private set; }
 
     private const float INVINCIBLE_DURATION = 2;
     private const float ONE_INVINCIBLE_BLINK_DURATION = 0.15f;
@@ -59,6 +60,18 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(BulletRef);
         }
+
+        IsEnabled = true;
+    }
+
+    public void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
+
+        if (BulletRef != null)
+        {
+            BulletRef.GetComponent<BulletController>().PauseResumeGame(IsEnabled);
+        }
     }
 
     private void Awake()
@@ -73,13 +86,16 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        UpdatePlayerOrientation();
+        if (IsEnabled)
+        {
+            UpdatePlayerOrientation();
 
-        CheckInputs();
-        CheckInvincibility();
+            CheckInputs();
+            CheckInvincibility();
 
-        // Update life bar
-        currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
+            // Update life bar
+            currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
+        }
     }
 
     private void FixedUpdate()

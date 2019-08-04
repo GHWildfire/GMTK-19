@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour
 
     public bool IsPlayerAbleToPickUp { get; private set; }
     public bool IsMoving { get; private set; }
+    public bool IsEnabled { get; private set; }
     public float InitSpeed { get; private set; }
     public float Damage { get; private set; }
     public float TravelTime { get; private set; }
@@ -32,10 +33,16 @@ public class BulletController : MonoBehaviour
         transform.localScale *= UpgradeParameters.BulletScaleFactor;
     }
 
+    public void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
+    }
+
     private void Awake()
     {
         IsPlayerAbleToPickUp = false;
         IsMoving = true;
+        IsEnabled = true;
         InitSpeed = 10;
         reboundNumber = 0;
         currentStopMovingDuration = 0;
@@ -45,21 +52,26 @@ public class BulletController : MonoBehaviour
     private void Start()
     {
         rigid2d = GetComponent<Rigidbody2D>();
-
-        rigid2d.velocity = transform.up * InitSpeed;
     }
 
     private void Update()
     {
-        UpdatePickUp();
-
-        if (IsMoving)
+        if (IsEnabled)
         {
-            UpdateTravelTime();
+            UpdatePickUp();
+
+            if (IsMoving)
+            {
+                UpdateTravelTime();
+            }
+            else
+            {
+                UpdatePushedVelocity();
+            }
         }
         else
         {
-            UpdatePushedVelocity();
+            rigid2d.velocity = Vector2.zero;
         }
     }
 
@@ -79,7 +91,7 @@ public class BulletController : MonoBehaviour
         {
             reboundNumber++;
 
-            UpdateOrientation(rigid2d.velocity.normalized);
+            UpdateOrientation(rigid2d.velocity.normalized, transform);
         }
     }
 
@@ -98,7 +110,7 @@ public class BulletController : MonoBehaviour
 
                 reboundNumber++;
 
-                UpdateOrientation(velocity.normalized);
+                UpdateOrientation(velocity.normalized, transform);
             }
             else if (collision.tag == Utility.FromTag(Utility.Tag.WALL))
             {
@@ -112,7 +124,7 @@ public class BulletController : MonoBehaviour
     /// <summary>
     /// Update the orientation of the bullet
     /// </summary>
-    private void UpdateOrientation(Vector2 direction)
+    private void UpdateOrientation(Vector2 direction, Transform transform)
     {
         float radian = Mathf.Atan2(direction.y, direction.x);
         float degree = radian * Mathf.Rad2Deg;
@@ -159,6 +171,10 @@ public class BulletController : MonoBehaviour
                 IsMoving = false;
                 Damage = 0;
             }
+        }
+        else
+        {
+            rigid2d.velocity = transform.up * InitSpeed;
         }
     }
 }

@@ -49,6 +49,14 @@ public class SlimeManager
         slimesSpawnPoints.Clear();
     }
 
+    public void PauseResumeGame(bool isEnabled)
+    {
+        foreach (GameObject slime in Slimes)
+        {
+            slime.GetComponent<SlimeController>().PauseResumeGame(isEnabled);
+        }
+    }
+
     public void Update()
     {
         // Manage ignore collisions between bullet and slimes

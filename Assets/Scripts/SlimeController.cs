@@ -23,6 +23,7 @@ public class SlimeController : MonoBehaviour
 
     public float InitSpeed { get; private set; }
     public float CurrentLife { get; private set; }
+    public bool IsEnabled { get; private set; }
     public SlimeType Type { get; private set; }
     public Rigidbody2D Rigid2d { get; private set; }
 
@@ -45,6 +46,12 @@ public class SlimeController : MonoBehaviour
         {
             initRotationSpeed *= -1;
         }
+        IsEnabled = true;
+    }
+
+    public void PauseResumeGame(bool isEnabled)
+    {
+        IsEnabled = isEnabled;
     }
 
     private void Awake()
@@ -64,15 +71,32 @@ public class SlimeController : MonoBehaviour
 
     private void Update()
     {
-        currentDamagingDuration -= Time.deltaTime;
+        if (IsEnabled)
+        {
+            currentDamagingDuration -= Time.deltaTime;
 
-        animator.SetBool("Damaged", currentDamagingDuration > 0);
+            Rigid2d.velocity = Body.transform.up * InitSpeed;
 
-        // Rotate sprite
-        BodySprite.transform.Rotate(transform.forward * initRotationSpeed);
+            animator.SetBool("Damaged", currentDamagingDuration > 0);
 
-        // Update life bar
-        currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
+            // Rotate sprite
+            BodySprite.transform.Rotate(transform.forward * initRotationSpeed);
+
+            // Update life bar
+            currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
+        }
+        else
+        {
+            Rigid2d.velocity = Vector2.zero;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.transform.tag == Utility.FromTag(Utility.Tag.WALL))
+        {
+            UpdateOrientation(Rigid2d.velocity.normalized, Body.transform);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -91,6 +115,18 @@ public class SlimeController : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Update the orientation of the bullet
+    /// </summary>
+    private void UpdateOrientation(Vector2 direction, Transform transform)
+    {
+        float radian = Mathf.Atan2(direction.y, direction.x);
+        float degree = radian * Mathf.Rad2Deg;
+        float finalDegree = degree - 90;
+
+        transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, finalDegree));
     }
 
     private float GetInitSpeed(SlimeType type)

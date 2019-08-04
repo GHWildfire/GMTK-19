@@ -50,6 +50,9 @@ public class GameHandler : MonoBehaviour
 
     public static Camera SharedCam;
 
+    private const float SWAP_DURATION = 1.5f;
+    private const float CAMERA_MAX_OFFSET = 50;
+
     private GameObject[] levelsObjects;
     private Level[] levels;
     private List<List<(float, SlimeManager.SpawmSlime)>> mobs;
@@ -64,9 +67,6 @@ public class GameHandler : MonoBehaviour
     private float initSwapTime;
     private float initTime;
     private float elapsedTime;
-
-    private const float SWAP_DURATION = 1.5f;
-    private const float CAMERA_MAX_OFFSET = 50;
     
     private SwapState swapState;
     private GameState currentGameState;
@@ -158,6 +158,7 @@ public class GameHandler : MonoBehaviour
             if (currentGameState == GameState.START)
             {
                 elapsedTime += Time.deltaTime;
+
                 HandleKeys();
                 UpdateLevel();
                 slimeManager.Update();
@@ -188,9 +189,9 @@ public class GameHandler : MonoBehaviour
             inGameCanvas.gameObject.SetActive(false);
         }
 
-        // TODO
-        // currentPlayer.getCom<playerCon>().ChangeGameState(curentGameState);
-        // Same for slimes
+        bool isGameRunning = currentGameState == GameState.START;
+        currentPlayer.GetComponent<PlayerController>().PauseResumeGame(isGameRunning);
+        slimeManager.PauseResumeGame(isGameRunning);
     }
 
     private void RestartGame()
@@ -216,14 +217,14 @@ public class GameHandler : MonoBehaviour
         {
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),/*
                 (2, slimeManager.SpawnStandard),
                 (2, slimeManager.SpawnStandard),
                 (6, slimeManager.SpawnSlow),
                 (10, slimeManager.SpawnFast),
                 (14, slimeManager.SpawnBoss1),
                 (18, slimeManager.SpawnBoss2),
-                (22, slimeManager.SpawnBoss3)
+                (22, slimeManager.SpawnBoss3)*/
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
