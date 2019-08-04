@@ -16,14 +16,15 @@ public class SlimeManager
 
     private GameObject player;
 
-    public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel,
-        GameObject player)
+    public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
+        GameObject boss1SlimeModel, GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
             standardSlimeModel,
             fastSlimeModel,
-            slowSlimeModel
+            slowSlimeModel,
+            boss1SlimeModel
         };
 
         this.player = player;
@@ -95,6 +96,17 @@ public class SlimeManager
         SpawnSlime(SlimeController.SlimeType.SLOW);
     }
 
+    public void SpawnBoss1()
+    {
+        if (spawnPoints == null)
+        {
+            Debug.Log("No spawn points !");
+            return;
+        }
+
+        SpawnSlime(SlimeController.SlimeType.BOSS1);
+    }
+
     private void SpawnSlime(SlimeController.SlimeType type)
     {
         GameObject selectedSpawn = SelectSpawn(SpawnStorage.GetSpawnType(type));
@@ -122,7 +134,7 @@ public class SlimeManager
     private GameObject SelectSpawn(SpawnStorage.SpawnType type)
     {
         List<GameObject> filteredSpawns = spawnPoints.Where(x => x.GetComponent<SpawnStorage>().CurrentSpawnType == type).ToList();
-
+        
         return filteredSpawns[Random.Range(0, filteredSpawns.Count)];
     }
 }

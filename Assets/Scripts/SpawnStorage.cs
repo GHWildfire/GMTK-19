@@ -17,8 +17,13 @@ public class SpawnStorage : MonoBehaviour
         switch (type)
         {
             case SlimeController.SlimeType.STANDARD:
+                return SpawnType.STANDARD;
             case SlimeController.SlimeType.FAST:
+                return SpawnType.STANDARD;
             case SlimeController.SlimeType.SLOW:
+                return SpawnType.STANDARD;
+            case SlimeController.SlimeType.BOSS1:
+                return SpawnType.BOSS;
             default:
                 return SpawnType.STANDARD;
         }

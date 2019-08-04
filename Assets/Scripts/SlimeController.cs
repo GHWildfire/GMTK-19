@@ -8,7 +8,8 @@ public class SlimeController : MonoBehaviour
     {
         STANDARD,
         FAST,
-        SLOW
+        SLOW,
+        BOSS1
     }
 
     public CircleCollider2D MainCollider;
@@ -102,6 +103,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.SLOW:
                 return 8;
+
+            case SlimeType.BOSS1:
+                return 16;
         }
 
         return 0;
@@ -119,6 +123,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.SLOW:
                 return 4;
+
+            case SlimeType.BOSS1:
+                return 10;
         }
 
         return 0;
@@ -135,6 +142,9 @@ public class SlimeController : MonoBehaviour
                 return 10;
 
             case SlimeType.SLOW:
+                return 2;
+
+            case SlimeType.BOSS1:
                 return 2;
         }
 

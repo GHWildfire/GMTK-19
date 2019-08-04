@@ -33,6 +33,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject standardSlimeModel;
     [SerializeField] private GameObject fastSlimeModel;
     [SerializeField] private GameObject slowSlimeModel;
+    [SerializeField] private GameObject boss1SlimeModel;
 
     public static Camera SharedCam;
 
@@ -96,7 +97,7 @@ public class GameHandler : MonoBehaviour
 
         currentPlayer = Instantiate(playerModel);
 
-        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, currentPlayer);
+        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, boss1SlimeModel, currentPlayer);
 
         FillSlimes();
         FillLevels();
@@ -155,6 +156,25 @@ public class GameHandler : MonoBehaviour
                 (4, slimeManager.SpawnStandard),
                 (6, slimeManager.SpawnSlow),
                 (8, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnSlow),
+                (4, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnSlow),
+                (8, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnSlow),
+                (4, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnSlow),
+                (8, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnBoss1),
+                (2, slimeManager.SpawnBoss1)
             }
         };
     }

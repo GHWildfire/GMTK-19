@@ -11,6 +11,7 @@ public class DebugPhysicsHandler : MonoBehaviour
     [SerializeField] private GameObject standardSlimeModel;
     [SerializeField] private GameObject fastSlimeModel;
     [SerializeField] private GameObject slowSlimeModel;
+    [SerializeField] private GameObject boss1SlimeModel;
 
     private const float SPAWN_DURATION = 2;
 
@@ -26,7 +27,7 @@ public class DebugPhysicsHandler : MonoBehaviour
 
         currentPlayer = Instantiate(playerModel);
 
-        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, currentPlayer);
+        slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, boss1SlimeModel ,currentPlayer);
 
         ChangeSlimeSpawnPoints(slimeSpawnPointsParent.transform);
     }
