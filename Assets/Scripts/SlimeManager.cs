@@ -19,7 +19,7 @@ public class SlimeManager
     private GameObject player;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
-        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject player)
+        GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject finalBossSlimeModel, GameObject player)
     {
         slimeModels = new List<GameObject>()
         {
@@ -28,7 +28,8 @@ public class SlimeManager
             slowSlimeModel,
             boss1SlimeModel,
             boss2SlimeModel,
-            boss3SlimeModel
+            boss3SlimeModel,
+            finalBossSlimeModel
         };
 
         slimesSpawnPoints = new Dictionary<int, int>();
@@ -108,6 +109,11 @@ public class SlimeManager
     public void SpawnBoss3()
     {
         SpawnSlime(SlimeController.SlimeType.BOSS3);
+    }
+
+    public void SpawnFinalBoss()
+    {
+        SpawnSlime(SlimeController.SlimeType.FINAL_BOSS);
     }
 
     private void SpawnSlime(SlimeController.SlimeType type)

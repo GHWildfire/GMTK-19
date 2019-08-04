@@ -11,7 +11,8 @@ public class SlimeController : MonoBehaviour
         SLOW,
         BOSS1,
         BOSS2,
-        BOSS3
+        BOSS3,
+        FINAL_BOSS
     }
 
     public CircleCollider2D MainCollider;
@@ -114,6 +115,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.BOSS3:
                 return 60;
+
+            case SlimeType.FINAL_BOSS:
+                return 25;
         }
 
         return 0;
@@ -140,6 +144,9 @@ public class SlimeController : MonoBehaviour
 
             case SlimeType.BOSS3:
                 return 15;
+
+            case SlimeType.FINAL_BOSS:
+                return 100;
         }
 
         return 0;
@@ -166,6 +173,9 @@ public class SlimeController : MonoBehaviour
                 
             case SlimeType.BOSS3:
                 return 10;
+
+            case SlimeType.FINAL_BOSS:
+                return 2;
         }
 
         return 0;

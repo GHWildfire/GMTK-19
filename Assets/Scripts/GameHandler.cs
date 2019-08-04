@@ -47,6 +47,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField] private GameObject boss1SlimeModel;
     [SerializeField] private GameObject boss2SlimeModel;
     [SerializeField] private GameObject boss3SlimeModel;
+    [SerializeField] private GameObject finalBossSlimeModel;
 
     public static Camera SharedCam;
 
@@ -118,7 +119,7 @@ public class GameHandler : MonoBehaviour
         currentPlayer = Instantiate(playerModel);
 
         slimeManager = new SlimeManager(standardSlimeModel, fastSlimeModel, slowSlimeModel, 
-            boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, currentPlayer);
+            boss1SlimeModel, boss2SlimeModel, boss3SlimeModel, finalBossSlimeModel, currentPlayer);
 
         FillSlimes();
         FillLevels();
@@ -285,6 +286,22 @@ public class GameHandler : MonoBehaviour
             new List<(float, SlimeManager.SpawmSlime)>
             {
                 (2, slimeManager.SpawnStandard)
+            },
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnStandard)
+            },
+            // ALL BOSSES
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnBoss1),
+                (2, slimeManager.SpawnBoss1),
+                (2, slimeManager.SpawnBoss3)
+            },
+            // Final BOSS
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnFinalBoss)
             }
         };
     }
