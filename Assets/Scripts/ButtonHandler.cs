@@ -7,19 +7,21 @@ public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     [SerializeField] GameObject eventHandlerObject;
 
+    private EventHandler eventHandler;
+
     public void OnPointerExit(PointerEventData eventData)
     {
-
+        eventHandler.ClearDescription();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-
+        eventHandler.DisplayDescription(GetComponent<Button>());
     }
 
-    public void SetUpgrade(Sprite sprite, string description)
+    public void SetSprite(Sprite sprite)
     {
-
+        GetComponent<Image>().sprite = sprite;
     }
 
     // Start is called before the first frame update
@@ -27,11 +29,12 @@ public class ButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         Button button = GetComponent<Button>();
         button.onClick.AddListener(OnClick);
+        
+        eventHandler = eventHandlerObject.GetComponent<EventHandler>();
     }
 
     private void OnClick()
     {
-        EventHandler eventHandler = eventHandlerObject.GetComponent<EventHandler>();
-        eventHandler.ButtonPressed(transform.name);
+        eventHandler.ButtonPressed(GetComponent<Button>());
     }
 }

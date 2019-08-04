@@ -1,14 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameHandler : MonoBehaviour
 {
     [SerializeField] private GameObject levelsContainer;
+    [SerializeField] private TextMeshProUGUI Description;
     [SerializeField] private Sprite slimeSprite;
     [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject canvas;
     [SerializeField] private GameObject playerModel;
+    [SerializeField] private EventHandler eventHandler;
 
     [Header("Slimes Models")]
     [SerializeField] private GameObject standardSlimeModel;
@@ -32,7 +35,7 @@ public class GameHandler : MonoBehaviour
     private const float SWAP_DURATION = 1.5f;
     private const float CAMERA_MAX_OFFSET = 50;
 
-    private enum SwapState { FADE_OUT, DISPLAY_UPGRADES, WAIT_CHOICE, FADE_IN, FINISHED};
+    private enum SwapState { FADE_OUT, DISPLAY_UPGRADES, WAIT_CHOICE, FADE_IN, FINISHED };
     private SwapState swapState;
 
     private SlimeManager slimeManager;
@@ -49,6 +52,14 @@ public class GameHandler : MonoBehaviour
         }
     }
 
+    public void UpdateDescription(string description)
+    {
+        if (swapState == SwapState.WAIT_CHOICE)
+        {
+            Description.text = description;
+        }
+    }
+
     private void Awake()
     {
         SharedCam = mainCam;
@@ -60,6 +71,8 @@ public class GameHandler : MonoBehaviour
         swapDirectionLeft = false;
         initSwapTime = Time.time;
         swapState = SwapState.FADE_OUT;
+
+        Description.text = "";
 
         canvas.SetActive(false);
 
@@ -174,6 +187,7 @@ public class GameHandler : MonoBehaviour
                 }
                 else
                 {
+                    eventHandler.SelectNextUpgrades();
                     canvas.SetActive(true);
                     levelIndex++;
                     swapState = SwapState.WAIT_CHOICE;
@@ -197,6 +211,7 @@ public class GameHandler : MonoBehaviour
                 initTime = Time.time;
                 mainCam.transform.position = initCamPos;
                 swapLevel = false;
+                Description.text = "";
                 break;
             default:
                 break;
