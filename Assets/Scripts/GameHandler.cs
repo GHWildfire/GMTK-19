@@ -78,7 +78,6 @@ public class GameHandler : MonoBehaviour
     private bool useUpgrade;
 
     private float initSwapTime;
-    private float initTime;
     private float elapsedTime;
     
     private SwapState swapState;
@@ -153,7 +152,6 @@ public class GameHandler : MonoBehaviour
         UpgradeParameters.Init();
 
         levelIndex = 0;
-        initTime = Time.time;
         swapLevel = false;
         useUpgrade = false;
         swapDirectionLeft = false;
@@ -617,7 +615,6 @@ public class GameHandler : MonoBehaviour
                 break;
 
             case SwapState.FINISHED:
-                initTime = Time.time;
                 mainCam.transform.position = initCamPos;
                 swapLevel = false;
                 Description.text = "";
@@ -632,7 +629,7 @@ public class GameHandler : MonoBehaviour
     private void UpdateLevel()
     {
         Level activeLevel = levels[levelIndex];
-        activeLevel.Update(Time.time - initTime);
+        activeLevel.Update();
 
         if (levelIndex < levelsObjects.Length - 1)
         {
@@ -656,6 +653,7 @@ public class GameHandler : MonoBehaviour
 
     private void HandleKeys()
     {
+        /* Debug
         if (Input.GetKeyDown(KeyCode.K) && levelIndex > 0)
         {
             ActivateSwap(true);
@@ -664,6 +662,7 @@ public class GameHandler : MonoBehaviour
         {
             ActivateSwap(false);
         }
+        */
     }
 
     private void ActivateSwap(bool directionLeft)
