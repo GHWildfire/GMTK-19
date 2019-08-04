@@ -12,15 +12,12 @@ public class PlayerController : MonoBehaviour
     public CircleCollider2D MainCollider;
 
     public GameObject BulletRef { get; private set; }
+    public float MaxLife { get; private set; }
     public float CurrentLife { get; private set; }
 
-    private const float MOVE_SPEED = 15;
     private const float INVINCIBLE_DURATION = 2;
     private const float ONE_INVINCIBLE_BLINK_DURATION = 0.15f;
 
-    private float bulletSpeed = 40;
-    private float bulletDamage = 1;
-    private float bulletTravelTime = 3;
     private float oneLifePointOnLifeBar;
     private float currentInvincibleDurationAvailable;
     private float currentInvincibleBlinkDurationAvailable;
@@ -33,10 +30,26 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rigid2d;
 
-    private void Awake()
+    public void Init()
     {
-        rigid2d = GetComponent<Rigidbody2D>();
-        CurrentLife = 5;
+        // Update the players max life
+        float prevLife = MaxLife;
+        MaxLife = UpgradeParameters.PlayerLife;
+        CurrentLife += MaxLife - prevLife;
+
+        // Heal player if possible
+        if (UpgradeParameters.DidPlayerHeal)
+        {
+            UpgradeParameters.DidPlayerHeal = false;
+
+            CurrentLife += UpgradeParameters.HealPlayer;
+            UpgradeParameters.HealPlayer = 0;
+
+            if (CurrentLife > MaxLife)
+            {
+                CurrentLife = MaxLife;
+            }
+        }
 
         currentMove = new Vector2();
         isBulletReady = true;
@@ -44,7 +57,20 @@ public class PlayerController : MonoBehaviour
         isBlinkingOn = false;
         currentInvincibleDurationAvailable = 0;
         currentInvincibleBlinkDurationAvailable = 0;
-        oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / CurrentLife;
+        oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / MaxLife;
+
+        if (BulletRef != null)
+        {
+            Destroy(BulletRef);
+        }
+    }
+
+    private void Awake()
+    {
+        rigid2d = GetComponent<Rigidbody2D>();
+
+        MaxLife = 0;
+        CurrentLife = 0;
     }
 
     private void Update()
@@ -155,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyMove()
     {
-        rigid2d.velocity = currentMove * MOVE_SPEED;
+        rigid2d.velocity = currentMove * UpgradeParameters.PlayerSpeed;
     }
 
     private void ShootBullet()
@@ -169,7 +195,7 @@ public class PlayerController : MonoBehaviour
             bullet.transform.up = spritesParent.transform.up;
 
             BulletController bulletController = bullet.GetComponent<BulletController>();
-            bulletController.Init(bulletSpeed, bulletDamage, bulletTravelTime);
+            bulletController.Init();
 
             // Ignore collision between the player and the bullet (trigger ok)
             Physics2D.IgnoreCollision(MainCollider, bulletController.MainCollider);
