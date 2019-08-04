@@ -67,7 +67,7 @@ public class GameHandler : MonoBehaviour
     private float elapsedTime;
 
     private const float SWAP_DURATION = 1.5f;
-    private const float CAMERA_MAX_OFFSET = 50;
+    private const float CAMERA_MAX_OFFSET = 70;
     
     private SwapState swapState;
     private GameState currentGameState;
