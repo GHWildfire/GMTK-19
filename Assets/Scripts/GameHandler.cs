@@ -216,7 +216,14 @@ public class GameHandler : MonoBehaviour
         {
             new List<(float, SlimeManager.SpawmSlime)>
             {
-                (2, slimeManager.SpawnStandard)
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (2, slimeManager.SpawnStandard),
+                (6, slimeManager.SpawnSlow),
+                (10, slimeManager.SpawnFast),
+                (14, slimeManager.SpawnBoss1),
+                (18, slimeManager.SpawnBoss2),
+                (22, slimeManager.SpawnBoss3)
             },
             new List<(float, SlimeManager.SpawmSlime)>
             {
@@ -287,6 +294,12 @@ public class GameHandler : MonoBehaviour
                 (2, slimeManager.SpawnStandard)
             }
         };
+
+        // Resolve slime manager slimes spawning
+        foreach (List<(float, SlimeManager.SpawmSlime)> item in mobs)
+        {
+            item.Reverse();
+        }
     }
 
     private void FillLevels()
@@ -405,6 +418,11 @@ public class GameHandler : MonoBehaviour
         if (activeLevel.Ended() && levelIndex < levelsObjects.Length - 1)
         {
             ActivateSwap(false);
+            slimeManager.Init();
+        }
+        else
+        {
+            // TODO WIN
         }
     }
 

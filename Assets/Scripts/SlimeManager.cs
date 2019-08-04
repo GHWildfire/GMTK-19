@@ -6,17 +6,21 @@ using System;
 
 public class SlimeManager
 {
-    public delegate void SpawmSlime();
+    public delegate void SpawmSlime(int slimeIdx, bool isSlimeReadyToSpawn);
 
     public List<GameObject> Slimes { get; private set; }
 
+    private const float TIME_TO_SCALE_SPAWN = 1;
+
     private List<GameObject> slimeModels;
     private List<GameObject> spawnPoints;
-    private Dictionary<int, int> slimesSpawnPoints;
+    private Dictionary<int, GameObject> slimesSpawnPoints;
 
     private Transform slimesParent;
 
     private GameObject player;
+
+    private float currentTimeToScaleSpawn;
 
     public SlimeManager(GameObject standardSlimeModel, GameObject fastSlimeModel, GameObject slowSlimeModel, 
         GameObject boss1SlimeModel, GameObject boss2SlimeModel, GameObject boss3SlimeModel, GameObject player)
@@ -31,11 +35,18 @@ public class SlimeManager
             boss3SlimeModel
         };
 
-        slimesSpawnPoints = new Dictionary<int, int>();
+        slimesSpawnPoints = new Dictionary<int, GameObject>();
 
         this.player = player;
 
         Slimes = new List<GameObject>();
+
+        currentTimeToScaleSpawn = 0;
+    }
+
+    public void Init()
+    {
+        slimesSpawnPoints.Clear();
     }
 
     public void Update()
@@ -80,37 +91,57 @@ public class SlimeManager
         this.slimesParent = slimesParent;
     }
 
-    public void SpawnStandard()
+    public void SpawnStandard(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.STANDARD);
+        ManageSpawnSlime(SlimeController.SlimeType.STANDARD, slimeIdx, isSlimeReadyToSpawn);
     }
 
-    public void SpawnSlow()
+    public void SpawnSlow(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.SLOW);
+        ManageSpawnSlime(SlimeController.SlimeType.SLOW, slimeIdx, isSlimeReadyToSpawn);
     }
 
-    public void SpawnFast()
+    public void SpawnFast(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.FAST);
+        ManageSpawnSlime(SlimeController.SlimeType.FAST, slimeIdx, isSlimeReadyToSpawn);
     }
     
-    public void SpawnBoss1()
+    public void SpawnBoss1(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.BOSS1);
+        ManageSpawnSlime(SlimeController.SlimeType.BOSS1, slimeIdx, isSlimeReadyToSpawn);
     }
 
-    public void SpawnBoss2()
+    public void SpawnBoss2(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.BOSS2);
+        ManageSpawnSlime(SlimeController.SlimeType.BOSS2, slimeIdx, isSlimeReadyToSpawn);
     }
 
-    public void SpawnBoss3()
+    public void SpawnBoss3(int slimeIdx, bool isSlimeReadyToSpawn)
     {
-        SpawnSlime(SlimeController.SlimeType.BOSS3);
+        ManageSpawnSlime(SlimeController.SlimeType.BOSS3, slimeIdx, isSlimeReadyToSpawn);
     }
 
-    private void SpawnSlime(SlimeController.SlimeType type)
+    private void ManageSpawnSlime(SlimeController.SlimeType type, int slimeIdx, bool isSlimeReadyToSpawn)
+    {
+        // Select slime spawn point if none exists
+        if (!slimesSpawnPoints.ContainsKey(slimeIdx))
+        {
+            slimesSpawnPoints[slimeIdx] = SelectSpawn(SpawnStorage.GetSpawnType(type));
+            currentTimeToScaleSpawn = 0;
+        }
+
+        // Check if the slime is ready to be spawned
+        if (isSlimeReadyToSpawn)
+        {
+            SpawnSlime(type, slimesSpawnPoints[slimeIdx]);
+        }
+        else
+        {
+            PreSpawnSlime(type, slimesSpawnPoints[slimeIdx]);
+        }
+    }
+
+    private void SpawnSlime(SlimeController.SlimeType type, GameObject selectedSpawn)
     {
         if (spawnPoints == null)
         {
@@ -118,11 +149,11 @@ public class SlimeManager
             return;
         }
 
-        GameObject selectedSpawn = SelectSpawn(SpawnStorage.GetSpawnType(type));
-
         GameObject slime = UnityEngine.Object.Instantiate(slimeModels[(int)type]);
         slime.transform.position = selectedSpawn.transform.position;
         slime.transform.SetParent(slimesParent);
+
+        selectedSpawn.SetActive(false);
 
         SlimeController slimeController = slime.GetComponent<SlimeController>();
         slimeController.Init(type);
@@ -132,6 +163,17 @@ public class SlimeManager
         RotateRandomly(slime);
 
         Slimes.Add(slime);
+    }
+
+    private void PreSpawnSlime(SlimeController.SlimeType type, GameObject selectedSpawn)
+    {
+        currentTimeToScaleSpawn += Time.deltaTime;
+
+        Vector3 finalScale = slimeModels[(int)type].transform.localScale * 0.8f;
+        float scalePerc = currentTimeToScaleSpawn / TIME_TO_SCALE_SPAWN;
+
+        selectedSpawn.transform.localScale = Vector3.Lerp(Vector3.zero, finalScale, scalePerc);
+        selectedSpawn.SetActive(true);
     }
 
     private void RotateRandomly(GameObject slime)

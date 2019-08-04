@@ -22,17 +22,21 @@ public class Level
     {
         if (slimes.Count > 0)
         {
-            (float, SlimeManager.SpawmSlime) slime = slimes[0];
-
-            if (slime.Item1 - 1 <= timePassed)
+            for (int i = slimes.Count - 1; i >= 0; i--)
             {
-                //slime.Item2();
-            }
+                (float, SlimeManager.SpawmSlime) slime = slimes[i];
 
-            if (slime.Item1 <= timePassed)
-            {
-                slime.Item2();
-                slimes.RemoveAt(0);
+                if (slime.Item1 - 2 <= timePassed)
+                {
+                    slime.Item2(i, false);
+                }
+
+                if (slime.Item1 <= timePassed)
+                {
+                    slime.Item2(i, true);
+
+                    slimes.RemoveAt(slimes.Count - 1);
+                }
             }
         }
     }
