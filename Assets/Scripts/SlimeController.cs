@@ -107,7 +107,8 @@ public class SlimeController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == Utility.FromTag(Utility.Tag.WALL))
+        if (collision.transform.tag == Utility.FromTag(Utility.Tag.WALL) ||
+            collision.transform.tag == Utility.FromTag(Utility.Tag.ENNEMY))
         {
             UpdateOrientation(Rigid2d.velocity.normalized, Body.transform);
         }

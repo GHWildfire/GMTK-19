@@ -9,6 +9,8 @@ public class Level
     private List<(float, SlimeManager.SpawmSlime)> initSlimes;
     private List<(float, SlimeManager.SpawmSlime)> slimes;
 
+    private float elapsedTime;
+
     public Level(GameObject[] spawns, GameObject slimesObject, List<(float, SlimeManager.SpawmSlime)> slimes)
     {
         this.spawns = spawns;
@@ -16,22 +18,26 @@ public class Level
         this.slimes = slimes;
 
         initSlimes = new List<(float, SlimeManager.SpawmSlime)>(slimes);
+
+        elapsedTime = 0;
     }
 
-    public void Update(float timePassed)
+    public void Update()
     {
+        elapsedTime += Time.deltaTime;
+
         if (slimes.Count > 0)
         {
             for (int i = slimes.Count - 1; i >= 0; i--)
             {
                 (float, SlimeManager.SpawmSlime) slime = slimes[i];
 
-                if (slime.Item1 - 2 <= timePassed)
+                if (slime.Item1 - 2 <= elapsedTime)
                 {
                     slime.Item2(i, false);
                 }
 
-                if (slime.Item1 <= timePassed)
+                if (slime.Item1 <= elapsedTime)
                 {
                     slime.Item2(i, true);
 
