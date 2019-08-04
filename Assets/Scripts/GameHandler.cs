@@ -64,7 +64,7 @@ public class GameHandler : MonoBehaviour
     public static Camera SharedCam;
 
     private const float SWAP_DURATION = 1.5f;
-    private const float CAMERA_MAX_OFFSET = 50;
+    private const float CAMERA_MAX_OFFSET = 100;
 
     private GameObject[] levelsObjects;
     private Level[] levels;
@@ -509,6 +509,11 @@ public class GameHandler : MonoBehaviour
             new List<(float, SlimeManager.SpawmSlime)>
             {
                 (2, slimeManager.SpawnFinalBoss)
+            },
+            // Oups level
+            new List<(float, SlimeManager.SpawmSlime)>
+            {
+                (2, slimeManager.SpawnBoss1)
             }
         };
 
@@ -574,7 +579,16 @@ public class GameHandler : MonoBehaviour
                 mainCam.transform.position = initCamPos + direction * new Vector3(cameraOffsetOut, 0, 0);
                 if (timePassed > SWAP_DURATION)
                 {
-                    swapState = SwapState.DISPLAY_UPGRADES;
+                    if (levelIndex >= levels.Length - 1)
+                    {
+                        initSwapTime = Time.time;
+                        currentPlayer.GetComponent<PlayerController>().Init(levelsObjects[levelIndex], Audio, GunShot, EmptyGunShot);
+                        swapState = SwapState.FADE_IN;
+                    }
+                    else
+                    {
+                        swapState = SwapState.DISPLAY_UPGRADES;
+                    }
                 }
                 break;
 

@@ -11,8 +11,8 @@ public static class UpgradeParameters
     public const float PLAYER_LIFE = 2f;
     public const float ENNEMY_SPEED_FACTOR = 1f;
 
-    public static bool DidPlayerHeal = false;
-    public static float HealPlayerFactor = 0.33f;
+    public static bool DidPlayerHeal;
+    public static float HealPlayerFactor;
     public static float BulletSpeed;
     public static float BulletTime;
     public static float BulletDamages;
