@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 4345843460293820577}
   - component: {fileID: 4889049527963685252}
   - component: {fileID: 2035784574910966262}
+  - component: {fileID: 2444936194715826794}
   m_Layer: 0
   m_Name: FastSlime
   m_TagString: Ennemy
@@ -178,6 +179,7 @@ MonoBehaviour:
   BodySprite: {fileID: 858507345162652097}
   lifeBarParent: {fileID: 1344007053706508958}
   currentLifeBar: {fileID: 6549440400662043219}
+  animator: {fileID: 2444936194715826794}
 --- !u!50 &2035784574910966262
 Rigidbody2D:
   serializedVersion: 4
@@ -199,6 +201,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &2444936194715826794
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4345843460293820576}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 74fd469cb5db8c94dbb02f6379509cb1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &6623829559566710931
 PrefabInstance:
   m_ObjectHideFlags: 0

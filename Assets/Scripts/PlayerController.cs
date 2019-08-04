@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject spritesParent;
+    [SerializeField] private List<SpriteRenderer> sprites;
     [SerializeField] private GameObject bulletModel = null;
     [SerializeField] private GameObject weapon = null;
     [SerializeField] private GameObject currentLifeBar = null;
@@ -14,13 +15,19 @@ public class PlayerController : MonoBehaviour
     public float CurrentLife { get; private set; }
 
     private const float MOVE_SPEED = 15;
+    private const float INVINCIBLE_DURATION = 2;
+    private const float ONE_INVINCIBLE_BLINK_DURATION = 0.15f;
 
     private float bulletSpeed = 40;
     private float bulletDamage = 1;
     private float bulletTravelTime = 3;
     private float oneLifePointOnLifeBar;
+    private float currentInvincibleDurationAvailable;
+    private float currentInvincibleBlinkDurationAvailable;
 
     private bool isBulletReady;
+    private bool isInvincible;
+    private bool isBlinkingOn;
 
     private Vector2 currentMove;
 
@@ -28,10 +35,15 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        CurrentLife = 5;
         rigid2d = GetComponent<Rigidbody2D>();
+        CurrentLife = 5;
+
         currentMove = new Vector2();
         isBulletReady = true;
+        isInvincible = false;
+        isBlinkingOn = false;
+        currentInvincibleDurationAvailable = 0;
+        currentInvincibleBlinkDurationAvailable = 0;
         oneLifePointOnLifeBar = currentLifeBar.transform.localScale.x / CurrentLife;
     }
 
@@ -40,6 +52,7 @@ public class PlayerController : MonoBehaviour
         UpdatePlayerOrientation();
 
         CheckInputs();
+        CheckInvincibility();
 
         // Update life bar
         currentLifeBar.transform.localScale = new Vector2(oneLifePointOnLifeBar * CurrentLife, currentLifeBar.transform.localScale.y);
@@ -53,21 +66,13 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         CheckBulletPickUp(collision);
-
-        if (collision.tag == Utility.FromTag(Utility.Tag.ENNEMY))
-        {
-            CurrentLife--;
-
-            if (CurrentLife <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }
+        CheckPlayersDamage(collision);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         CheckBulletPickUp(collision);
+        CheckPlayersDamage(collision);
     }
 
     private void CheckInputs()
@@ -104,6 +109,47 @@ public class PlayerController : MonoBehaviour
         {
             currentMove.y /= Mathf.Sqrt(2);
             currentMove.x /= Mathf.Sqrt(2);
+        }
+    }
+
+    private void CheckInvincibility()
+    {
+        currentInvincibleDurationAvailable -= Time.deltaTime;
+
+        isInvincible = currentInvincibleDurationAvailable > 0;
+
+        if (isInvincible)
+        {
+            currentInvincibleBlinkDurationAvailable -= Time.deltaTime;
+
+            if (currentInvincibleBlinkDurationAvailable <= 0)
+            {
+                float alpha;
+
+                foreach (SpriteRenderer item in sprites)
+                {
+                    alpha = 1;
+
+                    if (!isBlinkingOn)
+                    {
+                        alpha = 0.2f;
+                    }
+
+                    item.color = new Color(item.color.r, item.color.g, item.color.b, alpha);
+                }
+
+                isBlinkingOn = !isBlinkingOn;
+                currentInvincibleBlinkDurationAvailable = ONE_INVINCIBLE_BLINK_DURATION;
+            }
+        }
+        else
+        {
+            isBlinkingOn = false;
+
+            foreach (SpriteRenderer item in sprites)
+            {
+                item.color = new Color(item.color.r, item.color.g, item.color.b, 1);
+            }
         }
     }
 
@@ -153,6 +199,20 @@ public class PlayerController : MonoBehaviour
             {
                 Destroy(collision.gameObject);
                 isBulletReady = true;
+            }
+        }
+    }
+
+    private void CheckPlayersDamage(Collider2D collision)
+    {
+        if (collision.tag == Utility.FromTag(Utility.Tag.ENNEMY) && !isInvincible)
+        {
+            CurrentLife--;
+            currentInvincibleDurationAvailable = INVINCIBLE_DURATION;
+
+            if (CurrentLife <= 0)
+            {
+                Destroy(gameObject);
             }
         }
     }

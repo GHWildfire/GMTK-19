@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 7816288074099886167}
   - component: {fileID: 1436619320721217906}
   - component: {fileID: 5509606886742532352}
+  - component: {fileID: 7201948088014760390}
   m_Layer: 0
   m_Name: StandardSlime
   m_TagString: Ennemy
@@ -178,6 +179,7 @@ MonoBehaviour:
   BodySprite: {fileID: 199546198700723871}
   lifeBarParent: {fileID: 6111309915626961119}
   currentLifeBar: {fileID: 2057351106438256658}
+  animator: {fileID: 7201948088014760390}
 --- !u!50 &5509606886742532352
 Rigidbody2D:
   serializedVersion: 4
@@ -199,6 +201,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &7201948088014760390
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7816288074099886166}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 74fd469cb5db8c94dbb02f6379509cb1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2127376146910378706
 PrefabInstance:
   m_ObjectHideFlags: 0

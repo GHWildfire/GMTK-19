@@ -16,14 +16,18 @@ public class SlimeController : MonoBehaviour
     public GameObject BodySprite;
     [SerializeField] private GameObject lifeBarParent;
     [SerializeField] private GameObject currentLifeBar;
+    [SerializeField] private Animator animator;
 
     public float InitSpeed { get; private set; }
     public float CurrentLife { get; private set; }
     public SlimeType Type { get; private set; }
     public Rigidbody2D Rigid2d { get; private set; }
 
+    private const float DAMAGING_DURATION = 1;
+
     private float initRotationSpeed;
     private float oneLifePointOnLifeBar;
+    private float currentDamagingDuration;
 
     public void Init(SlimeType type)
     {
@@ -44,6 +48,8 @@ public class SlimeController : MonoBehaviour
     {
         Rigid2d = GetComponent<Rigidbody2D>();
 
+        currentDamagingDuration = 0;
+
         lifeBarParent.SetActive(false);
     }
 
@@ -55,6 +61,10 @@ public class SlimeController : MonoBehaviour
 
     private void Update()
     {
+        currentDamagingDuration -= Time.deltaTime;
+
+        animator.SetBool("Damaged", currentDamagingDuration > 0);
+
         // Rotate sprite
         BodySprite.transform.Rotate(transform.forward * initRotationSpeed);
 
@@ -66,12 +76,16 @@ public class SlimeController : MonoBehaviour
     {
         if (collision.tag == Utility.FromTag(Utility.Tag.BULLET))
         {
-            CurrentLife -= collision.GetComponent<BulletController>().Damage;
-            lifeBarParent.SetActive(true);
-
-            if (CurrentLife <= 0)
+            if (collision.GetComponent<BulletController>().Damage > 0)
             {
-                Destroy(gameObject);
+                CurrentLife -= collision.GetComponent<BulletController>().Damage;
+                lifeBarParent.SetActive(true);
+                currentDamagingDuration = DAMAGING_DURATION;
+
+                if (CurrentLife <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

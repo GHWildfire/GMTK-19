@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 8877625653182184684}
   - component: {fileID: 334748791477644745}
   - component: {fileID: 6574322709530711483}
+  - component: {fileID: -1369122831895141819}
   m_Layer: 0
   m_Name: SlowSlime
   m_TagString: Ennemy
@@ -178,6 +179,7 @@ MonoBehaviour:
   BodySprite: {fileID: 1154790471694799902}
   lifeBarParent: {fileID: 8688580954762525894}
   currentLifeBar: {fileID: 3519172006083697675}
+  animator: {fileID: -1369122831895141819}
 --- !u!50 &6574322709530711483
 Rigidbody2D:
   serializedVersion: 4
@@ -199,6 +201,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!95 &-1369122831895141819
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8877625653182184685}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 74fd469cb5db8c94dbb02f6379509cb1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3593385352681176779
 PrefabInstance:
   m_ObjectHideFlags: 0

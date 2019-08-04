@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 787730711}
   - component: {fileID: 943944723818148013}
   - component: {fileID: 787730714}
+  - component: {fileID: 5014270513506991787}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -537,11 +538,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritesParent: {fileID: 4383443178203600128}
+  sprites:
+  - {fileID: 6902924233933571157}
+  - {fileID: 2235205900174362406}
+  - {fileID: 1018160277366001528}
+  - {fileID: 2089615769}
   bulletModel: {fileID: 1956646450423965173, guid: fcc986411760da84990ada12a09a94f7,
     type: 3}
   weapon: {fileID: 2089615767}
   currentLifeBar: {fileID: 2322513852586479630}
   MainCollider: {fileID: 787730711}
+--- !u!95 &5014270513506991787
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6892516524280436826}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0292ebedee7ff2942a500492be941e90, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2392505076648145614
 PrefabInstance:
   m_ObjectHideFlags: 0
